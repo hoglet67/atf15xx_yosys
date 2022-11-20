@@ -1,48 +1,58 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
 
 
-void make_gate(char *name, int area, int n, char *function ) {
-   printf("    cell(%s) {\n", name);
-   printf("        area: %d;\n", area);
-   for (int i = 0; i < n; i++) {
-      printf("        pin(%c) {\n", 'A' + i);
-      printf("            direction: input;\n");
-      printf("        }\n");
+char *output_name(char *name) {
+   while (isalpha(*name) || isdigit(*name)) {
+      putchar(*name++);
    }
-   printf("        pin(Q) {\n");
+   while (*name == ' ') {
+      name++;
+   }
+   return name;
+}
+
+char* make_input2(char *name, char *attribute) {
+   printf("        pin(");
+   name = output_name(name);
+   printf(") {\n");
+   printf("            direction: input;\n");
+   if (attribute) {
+      printf("            %s;\n", attribute);
+   }
+   printf("        }\n");
+   return name;
+}
+
+char* make_input(char *name) {
+   return make_input2(name, NULL);
+}
+
+
+void make_output(char *name, char *function) {
+   printf("        pin(%s) {\n", name);
    printf("            direction: output;\n");
    printf("            function: \"(%s)\";\n", function);
    printf("        }\n");
-   printf("    }\n");
-
 }
 
-void make_mux(char *name, int area, int ns, int nm, char *function ) {
+void make_gate(char *name, int area, char *inputs, char *output, char *function ) {
    printf("    cell(%s) {\n", name);
    printf("        area: %d;\n", area);
-   for (int i = 0; i < ns; i++) {
-      printf("        pin(S%d) {\n", i);
-      printf("            direction: input;\n");
-      printf("        }\n");
+   while (*inputs) {
+      inputs = make_input(inputs);
    }
-   for (int i = 0; i < nm; i++) {
-      printf("        pin(M%d) {\n", i);
-      printf("            direction: input;\n");
-      printf("        }\n");
-   }
-   printf("        pin(Q) {\n");
-   printf("            direction: output;\n");
-   printf("            function: \"(%s)\";\n", function);
-   printf("        }\n");
+   make_output(output, function);
    printf("    }\n");
-}
 
+}
 
 
 void make_dff(char *name, int area, int inc_clken, int inc_rst, int inc_set) {
    printf("    cell(%s) {\n", name);
    printf("        area: %d;\n", area);
-
    printf("        ff(\"IQ\", \"IQN\") {\n");
    printf("            clocked_on: CLK;\n");
    printf("            next_state: D;\n");
@@ -53,53 +63,22 @@ void make_dff(char *name, int area, int inc_clken, int inc_rst, int inc_set) {
       printf("            clear: AR;\n");
    }
    printf("        }\n");
-   printf("        pin(CLK) {\n");
-   printf("            direction: input;\n");
-   printf("            clock: true;\n");
-   printf("        }\n");
-   printf("        pin(D) {\n");
-   printf("            direction: input;\n");
-   printf("        }\n");
-   printf("        pin(Q) {\n");
-   printf("            direction: output;\n");
-   printf("            function: \"IQ\";\n");
-   printf("        }\n");
-   printf("        pin(QN) {\n");
-   printf("            direction: output;\n");
-   printf("            function: \"IQN\";\n");
-   printf("        }\n");
-   if (inc_set) {
-      printf("        pin(AS) {\n");
-      printf("            direction: input;\n");
-      printf("        }\n");
+   make_input2("CLK", "clock: true");
+   make_input("D");
+   if (inc_clken) {
+      make_input("CE");
    }
    if (inc_rst) {
-      printf("        pin(AR) {\n");
-      printf("            direction: input;\n");
-      printf("        }\n");
+      make_input("AR");
    }
+   if (inc_set) {
+      make_input("AS");
+   }
+   make_output("Q", "IQ");
+   make_output("QN", "IQN");
    printf("        ; // empty statement\n");
    printf("    }\n");
 }
-
-
-#if 0
-  cell(DFFSR) {
-    area: 18;
-    ff("IQ", "IQN") { clocked_on: C;
-                  next_state: D;
-                      preset: S;
-                       clear: R; }
-    pin(C) { direction: input;
-                 clock: true; }
-    pin(D) { direction: input; }
-    pin(Q) { direction: output;
-              function: "IQ"; }
-    pin(S) { direction: input; }
-    pin(R) { direction: input; }
-    ; // empty statement
-  }
-#endif
 
 
 
@@ -114,101 +93,107 @@ void main() {
    printf("*/\n");
    printf("library(atf15xx) {\n");
 
-   make_gate("GND",       0,  0, "0");
-   make_gate("VCC",       0,  0, "1");
-   make_gate("BUF",       0,  1, "A");
-   make_gate("OUTBUF",  100,  1, "A");
-   make_gate("INBUF",   100,  1, "A");
-   make_gate("IBUF",    100,  1, "A");
-   make_gate("INV",     100,  1, "!A");
-   make_gate("XOR",     300,  2, "A !B + !A B");
-   make_gate("XOR2",    300,  2, "A !B + !A B");
-   make_gate("AND2",    200,  2, "(A B)");
-   make_gate("AND3",    300,  3, "(A B C)");
-   make_gate("AND4",    400,  4, "(A B C D)");
-   make_gate("AND5",    500,  5, "(A B C D E)");
-   make_gate("AND6",    600,  6, "(A B C D E F)");
-   make_gate("AND7",    700,  7, "(A B C D E F G)");
-   make_gate("AND8",    800,  8, "(A B C D E F G H)");
-   make_gate("AND9",    800,  9, "(A B C D E F G H I)");
-   make_gate("AND10",   800, 10, "(A B C D E F G H I J)");
-   make_gate("AND11",   800, 11, "(A B C D E F G H I J K)");
-   make_gate("AND12",   800, 12, "(A B C D E F G H I J K L)");
-   make_gate("AND2I1",  200,  2, "(A !B)");
-   make_gate("AND2I2",  200,  2, "(!A !B)");
-   make_gate("AND3I1",  300,  3, "(A B !C)");
-   make_gate("AND3I2",  300,  3, "(A !B !C)");
-   make_gate("AND3I3",  300,  3, "(!A !B !C)");
-   make_gate("AND4I1",  400,  4, "(A B C !D)");
-   make_gate("AND4I2",  400,  4, "(A B !C !D)");
-   make_gate("AND4I3",  400,  4, "(A !B !C !D)");
-   make_gate("AND4I4",  400,  4, "(!A !B !C !D)");
-   make_gate("NAND2",   200,  2, "!(A B)");
-   make_gate("NAND3",   300,  3, "!(A B C)");
-   make_gate("NAND4",   400,  4, "!(A B C D)");
-   make_gate("NAND5",   500,  5, "!(A B C D E)");
-   make_gate("NAND6",   600,  6, "!(A B C D E F)");
-   make_gate("NAND7",   700,  7, "!(A B C D E F G)");
-   make_gate("NAND8",   800,  8, "!(A B C D E F G H)");
-   make_gate("NAND9",   800,  9, "!(A B C D E F G H I)");
-   make_gate("NAND10",  800, 10, "!(A B C D E F G H I J)");
-   make_gate("NAND11",  800, 11, "!(A B C D E F G H I J K)");
-   make_gate("NAND12",  800, 12, "!(A B C D E F G H I J K L)");
-   make_gate("NAND2I1", 200,  2, "!(A !B)");
-   make_gate("NAND2I2", 200,  2, "!(!A !B)");
-   make_gate("NAND3I1", 300,  3, "!(A B !C)");
-   make_gate("NAND3I2", 300,  3, "!(A !B !C)");
-   make_gate("NAND3I3", 300,  3, "!(!A !B !C)");
-   make_gate("NAND4I1", 400,  4, "!(A B C !D)");
-   make_gate("NAND4I2", 400,  4, "!(A B !C !D)");
-   make_gate("NAND4I3", 400,  4, "!(A !B !C !D)");
-   make_gate("NAND4I4", 400,  4, "!(!A !B !C !D)");
-   make_gate("OR2",     200,  2, "(A+B)");
-   make_gate("OR3",     300,  3, "(A+B+C)");
-   make_gate("OR4",     400,  4, "(A+B+C+D)");
-   make_gate("OR5",     500,  5, "(A+B+C+D+E)");
-   make_gate("OR6",     600,  6, "(A+B+C+D+E+F)");
-   make_gate("OR7",     700,  7, "(A+B+C+D+E+F+G)");
-   make_gate("OR8",     800,  8, "(A+B+C+D+E+F+G+H)");
-   make_gate("OR9",     800,  9, "(A+B+C+D+E+F+G+H+I)");
-   make_gate("OR10",    800, 10, "(A+B+C+D+E+F+G+H+I+J)");
-   make_gate("OR11",    800, 11, "(A+B+C+D+E+F+G+H+I+J+K)");
-   make_gate("OR12",    800, 12, "(A+B+C+D+E+F+G+H+I+J+K+L)");
-   make_gate("OR2I1",   200,  2, "(A+!B)");
-   make_gate("OR2I2",   200,  2, "(!A+!B)");
-   make_gate("OR3I1",   300,  3, "(A+B+!C)");
-   make_gate("OR3I2",   300,  3, "(A+!B+!C)");
-   make_gate("OR3I3",   300,  3, "(!A+!B+!C)");
-   make_gate("OR4I1",   400,  4, "(A+B+C+!D)");
-   make_gate("OR4I2",   400,  4, "(A+B+!C+!D)");
-   make_gate("OR4I3",   400,  4, "(A+!B+!C+!D)");
-   make_gate("OR4I4",   400,  4, "(!A+!B+!C+!D)");
-   make_gate("NOR2",    200,  2, "!(A+B)");
-   make_gate("NOR3",    300,  3, "!(A+B+C)");
-   make_gate("NOR4",    400,  4, "!(A+B+C+D)");
-   make_gate("NOR5",    500,  5, "!(A+B+C+D+E)");
-   make_gate("NOR6",    600,  6, "!(A+B+C+D+E+F)");
-   make_gate("NOR7",    700,  7, "!(A+B+C+D+E+F+G)");
-   make_gate("NOR8",    800,  8, "!(A+B+C+D+E+F+G+H)");
-   make_gate("NOR9",    800,  9, "!(A+B+C+D+E+F+G+H+I)");
-   make_gate("NOR10",   800, 10, "!(A+B+C+D+E+F+G+H+I+J)");
-   make_gate("NOR11",   800, 11, "!(A+B+C+D+E+F+G+H+I+J+K)");
-   make_gate("NOR12",   800, 12, "!(A+B+C+D+E+F+G+H+I+J+K+L)");
-   make_gate("NOR2I1",  200,  2, "!(A+!B)");
-   make_gate("NOR2I2",  200,  2, "!(!A+!B)");
-   make_gate("NOR3I1",  300,  3, "!(A+B+!C)");
-   make_gate("NOR3I2",  300,  3, "!(A+!B+!C)");
-   make_gate("NOR3I3",  300,  3, "!(!A+!B+!C)");
-   make_gate("NOR4I1",  400,  4, "!(A+B+C+!D)");
-   make_gate("NOR4I2",  400,  4, "!(A+B+!C+!D)");
-   make_gate("NOR4I3",  400,  4, "!(A+!B+!C+!D)");
-   make_gate("NOR4I4",  400,  4, "!(!A+!B+!C+!D)");
+   make_gate("GND",       0,  "",                          "Q", "0");
+   make_gate("VCC",       0,  "",                          "Q", "1");
 
-   make_gate("XNOR2",   100,  2, "!((A+B) !(A B))"); // Change function?
+   make_gate("BUF",       0, "A",                          "Q",  "A");
+   make_gate("OUTBUF",  100, "A",                          "Q",  "A");
+   make_gate("INBUF",   100, "A",                          "Q",  "A");
+   make_gate("IBUF",    100, "A",                          "Q",  "A");
+   make_gate("INV",     100, "A",                          "QN", "!N");
+   make_gate("XOR",     300, "A B",                        "Q",  "A !B + !A B");
+   make_gate("XOR2",    300, "A B",                        "Q",  "A !B + !A B");
 
-   make_mux("MUX2",    800,  1, 2, "(!S0 M0)+(S0 M1)");
-   make_mux("MUX4",    800,  2, 4, "(!S1 !S0 M0)+(!S1 S0 M1)+(S1 !S0 M2)+(S1 S0 M3)");
-   make_mux("MUX8",    800,  3, 8, "(!S2 !S1 !S0 M0)+(!S2 !S1 S0 M1)+(!S2 S1 !S0 M2)+(!S2 S1 S0 M3)+(S2 !S1 !S0 M4)+(S2 !S1 S0 M5)+(S2 S1 !S0 M6)+(S2 S1 S0 M7)");
+   make_gate("AND2",    200, "A B",                        "Q",  "(A B)");
+   make_gate("AND3",    300, "A B C",                      "Q",  "(A B C)");
+   make_gate("AND4",    400, "A B C D",                    "Q",  "(A B C D)");
+   make_gate("AND5",    500, "A B C D E",                  "Q",  "(A B C D E)");
+   make_gate("AND6",    600, "A B C D E F",                "Q",  "(A B C D E F)");
+   make_gate("AND7",    700, "A B C D E F G",              "Q",  "(A B C D E F G)");
+   make_gate("AND8",    800, "A B C D E F G H",            "Q",  "(A B C D E F G H)");
+   make_gate("AND9",    800, "A B C D E F G H I",          "Q",  "(A B C D E F G H I)");
+   make_gate("AND10",   800, "A B C D E F G H I J",        "Q",  "(A B C D E F G H I J)");
+   make_gate("AND11",   800, "A B C D E F G H I J K",      "Q",  "(A B C D E F G H I J K)");
+   make_gate("AND12",   800, "A B C D E F G H I J K L",    "Q",  "(A B C D E F G H I J K L)");
+   make_gate("AND2I1",  200, "A BN",                       "Q",  "(A !BN)");
+   make_gate("AND2I2",  200, "AN BN",                      "Q",  "(!AN !BN)");
+   make_gate("AND3I1",  300, "A B CN",                     "Q",  "(A B !CN)");
+   make_gate("AND3I2",  300, "A BN CN",                    "Q",  "(A !BN !CN)");
+   make_gate("AND3I3",  300, "AN BN CN",                   "Q",  "(!AN !BN !CN)");
+   make_gate("AND4I1",  400, "A B C DN",                   "Q",  "(A B C !DN)");
+   make_gate("AND4I2",  400, "A B CN DN",                  "Q",  "(A B !CN !DN)");
+   make_gate("AND4I3",  400, "A BN CN DN",                 "Q",  "(A !BN !CN !DN)");
+   make_gate("AND4I4",  400, "AN BN CN DN",                "Q",  "(!AN !BN !CN !DN)");
+
+
+   make_gate("NAND2",   200, "A B",                        "QN",  "!(A B)");
+   make_gate("NAND3",   300, "A B C",                      "QN",  "!(A B C)");
+   make_gate("NAND4",   400, "A B C D",                    "QN",  "!(A B C D)");
+   make_gate("NAND5",   500, "A B C D E",                  "QN",  "!(A B C D E)");
+   make_gate("NAND6",   600, "A B C D E F",                "QN",  "!(A B C D E F)");
+   make_gate("NAND7",   700, "A B C D E F G",              "QN",  "!(A B C D E F G)");
+   make_gate("NAND8",   800, "A B C D E F G H",            "QN",  "!(A B C D E F G H)");
+   make_gate("NAND9",   800, "A B C D E F G H I",          "QN",  "!(A B C D E F G H I)");
+   make_gate("NAND10",  800, "A B C D E F G H I J",        "QN",  "!(A B C D E F G H I J)");
+   make_gate("NAND11",  800, "A B C D E F G H I J K",      "QN",  "!(A B C D E F G H I J K)");
+   make_gate("NAND12",  800, "A B C D E F G H I J K L",    "QN",  "!(A B C D E F G H I J K L)");
+   make_gate("NAND2I1", 200, "A BN",                       "QN",  "!(A !BN)");
+   make_gate("NAND2I2", 200, "AN BN",                      "QN",  "!(!AN !BN)");
+   make_gate("NAND3I1", 300, "A B CN",                     "QN",  "!(A B !CN)");
+   make_gate("NAND3I2", 300, "A BN CN",                    "QN",  "!(A !BN !CN)");
+   make_gate("NAND3I3", 300, "AN BN CN",                   "QN",  "!(!AN !BN !CN)");
+   make_gate("NAND4I1", 400, "A B C DN",                   "QN",  "!(A B C !DN)");
+   make_gate("NAND4I2", 400, "A B CN DN",                  "QN",  "!(A B !CN !DN)");
+   make_gate("NAND4I3", 400, "A BN CN DN",                 "QN",  "!(A !BN !CN !DN)");
+   make_gate("NAND4I4", 400, "AN BN CN DN",                "QN",  "!(!AN !BN !CN !DN)");
+
+   make_gate("OR2",     200, "A B",                        "Q",  "(A+B)");
+   make_gate("OR3",     300, "A B C",                      "Q",  "(A+B+C)");
+   make_gate("OR4",     400, "A B C D",                    "Q",  "(A+B+C+D)");
+   make_gate("OR5",     500, "A B C D E",                  "Q",  "(A+B+C+D+E)");
+   make_gate("OR6",     600, "A B C D E F",                "Q",  "(A+B+C+D+E+F)");
+   make_gate("OR7",     700, "A B C D E F G",              "Q",  "(A+B+C+D+E+F+G)");
+   make_gate("OR8",     800, "A B C D E F G H",            "Q",  "(A+B+C+D+E+F+G+H)");
+   make_gate("OR9",     800, "A B C D E F G H I",          "Q",  "(A+B+C+D+E+F+G+H+I)");
+   make_gate("OR10",    800, "A B C D E F G H I J",        "Q",  "(A+B+C+D+E+F+G+H+I+J)");
+   make_gate("OR11",    800, "A B C D E F G H I J K",      "Q",  "(A+B+C+D+E+F+G+H+I+J+K)");
+   make_gate("OR12",    800, "A B C D E F G H I J K L",    "Q",  "(A+B+C+D+E+F+G+H+I+J+K+L)");
+   make_gate("OR2I1",   200, "A BN",                       "Q",  "(A+!BN)");
+   make_gate("OR2I2",   200, "AN BN",                      "Q",  "(!AN+!BN)");
+   make_gate("OR3I1",   300, "A B CN",                     "Q",  "(A+B+!CN)");
+   make_gate("OR3I2",   300, "A BN CN",                    "Q",  "(A+!BN+!CN)");
+   make_gate("OR3I3",   300, "AN BN CN",                   "Q",  "(!AN+!BN+!CN)");
+   make_gate("OR4I1",   400, "A B C DN",                   "Q",  "(A+B+C+!DN)");
+   make_gate("OR4I2",   400, "A B CN DN",                  "Q",  "(A+B+!CN+!DN)");
+   make_gate("OR4I3",   400, "A BN CN DN",                 "Q",  "(A+!BN+!CN+!DN)");
+   make_gate("OR4I4",   400, "AN BN CN DN",                "Q",  "(!AN+!BN+!CN+!DN)");
+
+   make_gate("NOR2",    200, "A B",                        "QN", "!(A+B)");
+   make_gate("NOR3",    300, "A B C",                      "QN", "!(A+B+C)");
+   make_gate("NOR4",    400, "A B C D",                    "QN", "!(A+B+C+D)");
+   make_gate("NOR5",    500, "A B C D E",                  "QN", "!(A+B+C+D+E)");
+   make_gate("NOR6",    600, "A B C D E F",                "QN", "!(A+B+C+D+E+F)");
+   make_gate("NOR7",    700, "A B C D E F G",              "QN", "!(A+B+C+D+E+F+G)");
+   make_gate("NOR8",    800, "A B C D E F G H",            "QN", "!(A+B+C+D+E+F+G+H)");
+   make_gate("NOR9",    800, "A B C D E F G H I",          "QN", "!(A+B+C+D+E+F+G+H+I)");
+   make_gate("NOR10",   800, "A B C D E F G H I J",        "QN", "!(A+B+C+D+E+F+G+H+I+J)");
+   make_gate("NOR11",   800, "A B C D E F G H I J K",      "QN", "!(A+B+C+D+E+F+G+H+I+J+K)");
+   make_gate("NOR12",   800, "A B C D E F G H I J K L",    "QN", "!(A+B+C+D+E+F+G+H+I+J+K+L)");
+   make_gate("NOR2I1",  200, "A BN",                       "QN", "!(A+!BN)");
+   make_gate("NOR2I2",  200, "AN BN",                      "QN", "!(!AN+!BN)");
+   make_gate("NOR3I1",  300, "A B CN",                     "QN", "!(A+B+!CN)");
+   make_gate("NOR3I2",  300, "A BN CN",                    "QN", "!(A+!BN+!CN)");
+   make_gate("NOR3I3",  300, "AN BN CN",                   "QN", "!(!AN+!BN+!CN)");
+   make_gate("NOR4I1",  400, "A B C DN",                   "QN", "!(A+B+C+!DN)");
+   make_gate("NOR4I2",  400, "A B CN DN",                  "QN", "!(A+B+!CN+!DN)");
+   make_gate("NOR4I3",  400, "A BN CN DN",                 "QN", "!(A+!BN+!CN+!DN)");
+   make_gate("NOR4I4",  400, "AN BN CN DN",                "QN", "!(!AN+!BN+!CN+!DN)");
+
+   make_gate("XNOR2",   100, "A B ",                       "QN",  "!((A+B) !(A B))"); // Change function?
+
+   make_gate("MUX2",    800, "S0 M0 M1",                   "Q",   "(!S0 M0)+(S0 M1)");
+   make_gate("MUX4",    800, "S0 S1 M0 M1 M2 M3",          "Q",   "(!S1 !S0 M0)+(!S1 S0 M1)+(S1 !S0 M2)+(S1 S0 M3)");
+   make_gate("MUX8",    800, "S0 S1 S2 M0 M1 M2 M3 M4 M5 M6 M7", "Q", "(!S2 !S1 !S0 M0)+(!S2 !S1 S0 M1)+(!S2 S1 !S0 M2)+(!S2 S1 S0 M3)+(S2 !S1 !S0 M4)+(S2 !S1 S0 M5)+(S2 S1 !S0 M6)+(S2 S1 S0 M7)");
 
    // PGATE  0 0	DG	DFFEARS 6.00		CLK RECK AR AS CE * D Q QN *
    // PGATE  0 0	DG	DFF     6.00		CLK RECK * * * * D Q QN *
@@ -226,7 +211,7 @@ void main() {
 
 
    // PGATE  0 0 	LG 	LATCH  5.00		EN L1 AR AS CE * D Q QN *
-   // PGATE  0 0	JKG	JKFFEARS 12.00		CLK RECK !AR !AS CE * J K Q QN *
+   // PGATE  0 0	JKG	JKFFEARS 12.00		CLK RECK !ANR !ANS CE * J K Q QN *
    // PGATE  0 0	TG	TFF     12.00		CLK RECK * * * * T Q QN *
    // PGATE  0 0	TG	TFFE    12.00		CLK RECK * * CE * T Q QN *
    // PGATE  0 0	TG	TFFAR   12.00		CLK RECK AR * * * T Q QN *
