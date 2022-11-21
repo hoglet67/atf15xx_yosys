@@ -4,6 +4,10 @@ export ROOT=$(dirname $0)
 export WINEPREFIX=$HOME/.wine_atf
 export FITTERDIR=$(winepath -w ${ROOT}/vendor)
 
+DEVICE=1508
+PACKAGE=PLCC84
+
+
 NAME=$1; shift
 OPTS=$(grep '//OPT:' ${NAME}.v | cut -d' ' -f2-)
 
@@ -11,4 +15,4 @@ OPTS=$(grep '//OPT:' ${NAME}.v | cut -d' ' -f2-)
 #grep '//PIN:' ${NAME}.v | cut -d' ' -f2- | tee ${NAME}.pin
 
 
-wine ${FITTERDIR}\\fit1508.exe -i ${NAME}.edif -o ${NAME}.jed -device PLCC84 -tech ATF1508AS -strategy ifmt=edif -strategy optimize=on -strategy DEBUG=off -strategy Verilog_sim Verilog ${OPTS}
+wine ${FITTERDIR}\\fit${DEVICE}.exe -i ${NAME}.edif -o ${NAME}.jed -device ${PACKAGE} -tech ATF${DEVICE}AS -strategy ifmt=edif -strategy optimize=on -strategy DEBUG=off -strategy Verilog_sim Verilog ${OPTS}
