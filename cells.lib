@@ -1,0 +1,2148 @@
+/*
+ delay model :       typ
+ check model :       typ
+ power model :       typ
+ capacitance model : typ
+ other model :       typ
+*/
+library(atf15xx) {
+    cell(GND) {
+        area: 0;
+        pin(Q) {
+            direction: output;
+            function: "(0)";
+        }
+    }
+    cell(VCC) {
+        area: 0;
+        pin(Q) {
+            direction: output;
+            function: "(1)";
+        }
+    }
+    cell(BUF) {
+        area: 0;
+        pin(A) {
+            direction: input;
+        }
+        pin(Q) {
+            direction: output;
+            function: "(A)";
+        }
+    }
+    cell(OUTBUF) {
+        area: 100;
+        pin(A) {
+            direction: input;
+        }
+        pin(Q) {
+            direction: output;
+            function: "(A)";
+        }
+    }
+    cell(INBUF) {
+        area: 100;
+        pin(A) {
+            direction: input;
+        }
+        pin(Q) {
+            direction: output;
+            function: "(A)";
+        }
+    }
+    cell(IBUF) {
+        area: 100;
+        pin(A) {
+            direction: input;
+        }
+        pin(Q) {
+            direction: output;
+            function: "(A)";
+        }
+    }
+    cell(bibuf) {
+        area: 0;
+        pin(A) {
+            direction: input;
+        }
+        pin(EN) {
+            direction: input;
+        }
+        pin(Q) {
+            direction: output;
+        }
+        pin(PAD) {
+            direction: input;
+        }
+    }
+    cell(INV) {
+        area: 100;
+        pin(A) {
+            direction: input;
+        }
+        pin(QN) {
+            direction: output;
+            function: "(!A)";
+        }
+    }
+    cell(XOR) {
+        area: 300;
+        pin(A) {
+            direction: input;
+        }
+        pin(B) {
+            direction: input;
+        }
+        pin(Q) {
+            direction: output;
+            function: "(A !B + !A B)";
+        }
+    }
+    cell(XOR2) {
+        area: 300;
+        pin(A) {
+            direction: input;
+        }
+        pin(B) {
+            direction: input;
+        }
+        pin(Q) {
+            direction: output;
+            function: "(A !B + !A B)";
+        }
+    }
+    cell(AND2) {
+        area: 200;
+        pin(A) {
+            direction: input;
+        }
+        pin(B) {
+            direction: input;
+        }
+        pin(Q) {
+            direction: output;
+            function: "((A B))";
+        }
+    }
+    cell(AND3) {
+        area: 300;
+        pin(A) {
+            direction: input;
+        }
+        pin(B) {
+            direction: input;
+        }
+        pin(C) {
+            direction: input;
+        }
+        pin(Q) {
+            direction: output;
+            function: "((A B C))";
+        }
+    }
+    cell(AND4) {
+        area: 400;
+        pin(A) {
+            direction: input;
+        }
+        pin(B) {
+            direction: input;
+        }
+        pin(C) {
+            direction: input;
+        }
+        pin(D) {
+            direction: input;
+        }
+        pin(Q) {
+            direction: output;
+            function: "((A B C D))";
+        }
+    }
+    cell(AND5) {
+        area: 500;
+        pin(A) {
+            direction: input;
+        }
+        pin(B) {
+            direction: input;
+        }
+        pin(C) {
+            direction: input;
+        }
+        pin(D) {
+            direction: input;
+        }
+        pin(E) {
+            direction: input;
+        }
+        pin(Q) {
+            direction: output;
+            function: "((A B C D E))";
+        }
+    }
+    cell(AND6) {
+        area: 600;
+        pin(A) {
+            direction: input;
+        }
+        pin(B) {
+            direction: input;
+        }
+        pin(C) {
+            direction: input;
+        }
+        pin(D) {
+            direction: input;
+        }
+        pin(E) {
+            direction: input;
+        }
+        pin(F) {
+            direction: input;
+        }
+        pin(Q) {
+            direction: output;
+            function: "((A B C D E F))";
+        }
+    }
+    cell(AND7) {
+        area: 700;
+        pin(A) {
+            direction: input;
+        }
+        pin(B) {
+            direction: input;
+        }
+        pin(C) {
+            direction: input;
+        }
+        pin(D) {
+            direction: input;
+        }
+        pin(E) {
+            direction: input;
+        }
+        pin(F) {
+            direction: input;
+        }
+        pin(G) {
+            direction: input;
+        }
+        pin(Q) {
+            direction: output;
+            function: "((A B C D E F G))";
+        }
+    }
+    cell(AND8) {
+        area: 800;
+        pin(A) {
+            direction: input;
+        }
+        pin(B) {
+            direction: input;
+        }
+        pin(C) {
+            direction: input;
+        }
+        pin(D) {
+            direction: input;
+        }
+        pin(E) {
+            direction: input;
+        }
+        pin(F) {
+            direction: input;
+        }
+        pin(G) {
+            direction: input;
+        }
+        pin(H) {
+            direction: input;
+        }
+        pin(Q) {
+            direction: output;
+            function: "((A B C D E F G H))";
+        }
+    }
+    cell(AND9) {
+        area: 800;
+        pin(A) {
+            direction: input;
+        }
+        pin(B) {
+            direction: input;
+        }
+        pin(C) {
+            direction: input;
+        }
+        pin(D) {
+            direction: input;
+        }
+        pin(E) {
+            direction: input;
+        }
+        pin(F) {
+            direction: input;
+        }
+        pin(G) {
+            direction: input;
+        }
+        pin(H) {
+            direction: input;
+        }
+        pin(I) {
+            direction: input;
+        }
+        pin(Q) {
+            direction: output;
+            function: "((A B C D E F G H I))";
+        }
+    }
+    cell(AND10) {
+        area: 800;
+        pin(A) {
+            direction: input;
+        }
+        pin(B) {
+            direction: input;
+        }
+        pin(C) {
+            direction: input;
+        }
+        pin(D) {
+            direction: input;
+        }
+        pin(E) {
+            direction: input;
+        }
+        pin(F) {
+            direction: input;
+        }
+        pin(G) {
+            direction: input;
+        }
+        pin(H) {
+            direction: input;
+        }
+        pin(I) {
+            direction: input;
+        }
+        pin(J) {
+            direction: input;
+        }
+        pin(Q) {
+            direction: output;
+            function: "((A B C D E F G H I J))";
+        }
+    }
+    cell(AND11) {
+        area: 800;
+        pin(A) {
+            direction: input;
+        }
+        pin(B) {
+            direction: input;
+        }
+        pin(C) {
+            direction: input;
+        }
+        pin(D) {
+            direction: input;
+        }
+        pin(E) {
+            direction: input;
+        }
+        pin(F) {
+            direction: input;
+        }
+        pin(G) {
+            direction: input;
+        }
+        pin(H) {
+            direction: input;
+        }
+        pin(I) {
+            direction: input;
+        }
+        pin(J) {
+            direction: input;
+        }
+        pin(K) {
+            direction: input;
+        }
+        pin(Q) {
+            direction: output;
+            function: "((A B C D E F G H I J K))";
+        }
+    }
+    cell(AND12) {
+        area: 800;
+        pin(A) {
+            direction: input;
+        }
+        pin(B) {
+            direction: input;
+        }
+        pin(C) {
+            direction: input;
+        }
+        pin(D) {
+            direction: input;
+        }
+        pin(E) {
+            direction: input;
+        }
+        pin(F) {
+            direction: input;
+        }
+        pin(G) {
+            direction: input;
+        }
+        pin(H) {
+            direction: input;
+        }
+        pin(I) {
+            direction: input;
+        }
+        pin(J) {
+            direction: input;
+        }
+        pin(K) {
+            direction: input;
+        }
+        pin(L) {
+            direction: input;
+        }
+        pin(Q) {
+            direction: output;
+            function: "((A B C D E F G H I J K L))";
+        }
+    }
+    cell(AND2I1) {
+        area: 200;
+        pin(A) {
+            direction: input;
+        }
+        pin(BN) {
+            direction: input;
+        }
+        pin(Q) {
+            direction: output;
+            function: "((A !BN))";
+        }
+    }
+    cell(AND2I2) {
+        area: 200;
+        pin(AN) {
+            direction: input;
+        }
+        pin(BN) {
+            direction: input;
+        }
+        pin(Q) {
+            direction: output;
+            function: "((!AN !BN))";
+        }
+    }
+    cell(AND3I1) {
+        area: 300;
+        pin(A) {
+            direction: input;
+        }
+        pin(B) {
+            direction: input;
+        }
+        pin(CN) {
+            direction: input;
+        }
+        pin(Q) {
+            direction: output;
+            function: "((A B !CN))";
+        }
+    }
+    cell(AND3I2) {
+        area: 300;
+        pin(A) {
+            direction: input;
+        }
+        pin(BN) {
+            direction: input;
+        }
+        pin(CN) {
+            direction: input;
+        }
+        pin(Q) {
+            direction: output;
+            function: "((A !BN !CN))";
+        }
+    }
+    cell(AND3I3) {
+        area: 300;
+        pin(AN) {
+            direction: input;
+        }
+        pin(BN) {
+            direction: input;
+        }
+        pin(CN) {
+            direction: input;
+        }
+        pin(Q) {
+            direction: output;
+            function: "((!AN !BN !CN))";
+        }
+    }
+    cell(AND4I1) {
+        area: 400;
+        pin(A) {
+            direction: input;
+        }
+        pin(B) {
+            direction: input;
+        }
+        pin(C) {
+            direction: input;
+        }
+        pin(DN) {
+            direction: input;
+        }
+        pin(Q) {
+            direction: output;
+            function: "((A B C !DN))";
+        }
+    }
+    cell(AND4I2) {
+        area: 400;
+        pin(A) {
+            direction: input;
+        }
+        pin(B) {
+            direction: input;
+        }
+        pin(CN) {
+            direction: input;
+        }
+        pin(DN) {
+            direction: input;
+        }
+        pin(Q) {
+            direction: output;
+            function: "((A B !CN !DN))";
+        }
+    }
+    cell(AND4I3) {
+        area: 400;
+        pin(A) {
+            direction: input;
+        }
+        pin(BN) {
+            direction: input;
+        }
+        pin(CN) {
+            direction: input;
+        }
+        pin(DN) {
+            direction: input;
+        }
+        pin(Q) {
+            direction: output;
+            function: "((A !BN !CN !DN))";
+        }
+    }
+    cell(AND4I4) {
+        area: 400;
+        pin(AN) {
+            direction: input;
+        }
+        pin(BN) {
+            direction: input;
+        }
+        pin(CN) {
+            direction: input;
+        }
+        pin(DN) {
+            direction: input;
+        }
+        pin(Q) {
+            direction: output;
+            function: "(!AN !BN !CN !DN)";
+        }
+    }
+    cell(NAND2) {
+        area: 200;
+        pin(A) {
+            direction: input;
+        }
+        pin(B) {
+            direction: input;
+        }
+        pin(QN) {
+            direction: output;
+            function: "(!(A B))";
+        }
+    }
+    cell(NAND3) {
+        area: 300;
+        pin(A) {
+            direction: input;
+        }
+        pin(B) {
+            direction: input;
+        }
+        pin(C) {
+            direction: input;
+        }
+        pin(QN) {
+            direction: output;
+            function: "(!(A B C))";
+        }
+    }
+    cell(NAND4) {
+        area: 400;
+        pin(A) {
+            direction: input;
+        }
+        pin(B) {
+            direction: input;
+        }
+        pin(C) {
+            direction: input;
+        }
+        pin(D) {
+            direction: input;
+        }
+        pin(QN) {
+            direction: output;
+            function: "(!(A B C D))";
+        }
+    }
+    cell(NAND5) {
+        area: 500;
+        pin(A) {
+            direction: input;
+        }
+        pin(B) {
+            direction: input;
+        }
+        pin(C) {
+            direction: input;
+        }
+        pin(D) {
+            direction: input;
+        }
+        pin(E) {
+            direction: input;
+        }
+        pin(QN) {
+            direction: output;
+            function: "(!(A B C D E))";
+        }
+    }
+    cell(NAND6) {
+        area: 600;
+        pin(A) {
+            direction: input;
+        }
+        pin(B) {
+            direction: input;
+        }
+        pin(C) {
+            direction: input;
+        }
+        pin(D) {
+            direction: input;
+        }
+        pin(E) {
+            direction: input;
+        }
+        pin(F) {
+            direction: input;
+        }
+        pin(QN) {
+            direction: output;
+            function: "(!(A B C D E F))";
+        }
+    }
+    cell(NAND7) {
+        area: 700;
+        pin(A) {
+            direction: input;
+        }
+        pin(B) {
+            direction: input;
+        }
+        pin(C) {
+            direction: input;
+        }
+        pin(D) {
+            direction: input;
+        }
+        pin(E) {
+            direction: input;
+        }
+        pin(F) {
+            direction: input;
+        }
+        pin(G) {
+            direction: input;
+        }
+        pin(QN) {
+            direction: output;
+            function: "(!(A B C D E F G))";
+        }
+    }
+    cell(NAND8) {
+        area: 800;
+        pin(A) {
+            direction: input;
+        }
+        pin(B) {
+            direction: input;
+        }
+        pin(C) {
+            direction: input;
+        }
+        pin(D) {
+            direction: input;
+        }
+        pin(E) {
+            direction: input;
+        }
+        pin(F) {
+            direction: input;
+        }
+        pin(G) {
+            direction: input;
+        }
+        pin(H) {
+            direction: input;
+        }
+        pin(QN) {
+            direction: output;
+            function: "(!(A B C D E F G H))";
+        }
+    }
+    cell(NAND9) {
+        area: 800;
+        pin(A) {
+            direction: input;
+        }
+        pin(B) {
+            direction: input;
+        }
+        pin(C) {
+            direction: input;
+        }
+        pin(D) {
+            direction: input;
+        }
+        pin(E) {
+            direction: input;
+        }
+        pin(F) {
+            direction: input;
+        }
+        pin(G) {
+            direction: input;
+        }
+        pin(H) {
+            direction: input;
+        }
+        pin(I) {
+            direction: input;
+        }
+        pin(QN) {
+            direction: output;
+            function: "(!(A B C D E F G H I))";
+        }
+    }
+    cell(NAND10) {
+        area: 800;
+        pin(A) {
+            direction: input;
+        }
+        pin(B) {
+            direction: input;
+        }
+        pin(C) {
+            direction: input;
+        }
+        pin(D) {
+            direction: input;
+        }
+        pin(E) {
+            direction: input;
+        }
+        pin(F) {
+            direction: input;
+        }
+        pin(G) {
+            direction: input;
+        }
+        pin(H) {
+            direction: input;
+        }
+        pin(I) {
+            direction: input;
+        }
+        pin(J) {
+            direction: input;
+        }
+        pin(QN) {
+            direction: output;
+            function: "(!(A B C D E F G H I J))";
+        }
+    }
+    cell(NAND11) {
+        area: 800;
+        pin(A) {
+            direction: input;
+        }
+        pin(B) {
+            direction: input;
+        }
+        pin(C) {
+            direction: input;
+        }
+        pin(D) {
+            direction: input;
+        }
+        pin(E) {
+            direction: input;
+        }
+        pin(F) {
+            direction: input;
+        }
+        pin(G) {
+            direction: input;
+        }
+        pin(H) {
+            direction: input;
+        }
+        pin(I) {
+            direction: input;
+        }
+        pin(J) {
+            direction: input;
+        }
+        pin(K) {
+            direction: input;
+        }
+        pin(QN) {
+            direction: output;
+            function: "(!(A B C D E F G H I J K))";
+        }
+    }
+    cell(NAND12) {
+        area: 800;
+        pin(A) {
+            direction: input;
+        }
+        pin(B) {
+            direction: input;
+        }
+        pin(C) {
+            direction: input;
+        }
+        pin(D) {
+            direction: input;
+        }
+        pin(E) {
+            direction: input;
+        }
+        pin(F) {
+            direction: input;
+        }
+        pin(G) {
+            direction: input;
+        }
+        pin(H) {
+            direction: input;
+        }
+        pin(I) {
+            direction: input;
+        }
+        pin(J) {
+            direction: input;
+        }
+        pin(K) {
+            direction: input;
+        }
+        pin(L) {
+            direction: input;
+        }
+        pin(QN) {
+            direction: output;
+            function: "(!(A B C D E F G H I J K L))";
+        }
+    }
+    cell(NAND2I1) {
+        area: 200;
+        pin(A) {
+            direction: input;
+        }
+        pin(BN) {
+            direction: input;
+        }
+        pin(QN) {
+            direction: output;
+            function: "(!(A !BN))";
+        }
+    }
+    cell(NAND2I2) {
+        area: 200;
+        pin(AN) {
+            direction: input;
+        }
+        pin(BN) {
+            direction: input;
+        }
+        pin(QN) {
+            direction: output;
+            function: "(!(!AN !BN))";
+        }
+    }
+    cell(NAND3I1) {
+        area: 300;
+        pin(A) {
+            direction: input;
+        }
+        pin(B) {
+            direction: input;
+        }
+        pin(CN) {
+            direction: input;
+        }
+        pin(QN) {
+            direction: output;
+            function: "(!(A B !CN))";
+        }
+    }
+    cell(NAND3I2) {
+        area: 300;
+        pin(A) {
+            direction: input;
+        }
+        pin(BN) {
+            direction: input;
+        }
+        pin(CN) {
+            direction: input;
+        }
+        pin(QN) {
+            direction: output;
+            function: "(!(A !BN !CN))";
+        }
+    }
+    cell(NAND3I3) {
+        area: 300;
+        pin(AN) {
+            direction: input;
+        }
+        pin(BN) {
+            direction: input;
+        }
+        pin(CN) {
+            direction: input;
+        }
+        pin(QN) {
+            direction: output;
+            function: "(!(!AN !BN !CN))";
+        }
+    }
+    cell(NAND4I1) {
+        area: 400;
+        pin(A) {
+            direction: input;
+        }
+        pin(B) {
+            direction: input;
+        }
+        pin(C) {
+            direction: input;
+        }
+        pin(DN) {
+            direction: input;
+        }
+        pin(QN) {
+            direction: output;
+            function: "(!(A B C !DN))";
+        }
+    }
+    cell(NAND4I2) {
+        area: 400;
+        pin(A) {
+            direction: input;
+        }
+        pin(B) {
+            direction: input;
+        }
+        pin(CN) {
+            direction: input;
+        }
+        pin(DN) {
+            direction: input;
+        }
+        pin(QN) {
+            direction: output;
+            function: "(!(A B !CN !DN))";
+        }
+    }
+    cell(NAND4I3) {
+        area: 400;
+        pin(A) {
+            direction: input;
+        }
+        pin(BN) {
+            direction: input;
+        }
+        pin(CN) {
+            direction: input;
+        }
+        pin(DN) {
+            direction: input;
+        }
+        pin(QN) {
+            direction: output;
+            function: "(!(A !BN !CN !DN))";
+        }
+    }
+    cell(NAND4I4) {
+        area: 400;
+        pin(AN) {
+            direction: input;
+        }
+        pin(BN) {
+            direction: input;
+        }
+        pin(CN) {
+            direction: input;
+        }
+        pin(DN) {
+            direction: input;
+        }
+        pin(QN) {
+            direction: output;
+            function: "!(!AN !BN !CN !DN)";
+        }
+    }
+    cell(OR2) {
+        area: 200;
+        pin(A) {
+            direction: input;
+        }
+        pin(B) {
+            direction: input;
+        }
+        pin(Q) {
+            direction: output;
+            function: "((A+B))";
+        }
+    }
+    cell(OR3) {
+        area: 300;
+        pin(A) {
+            direction: input;
+        }
+        pin(B) {
+            direction: input;
+        }
+        pin(C) {
+            direction: input;
+        }
+        pin(Q) {
+            direction: output;
+            function: "((A+B+C))";
+        }
+    }
+    cell(OR4) {
+        area: 400;
+        pin(A) {
+            direction: input;
+        }
+        pin(B) {
+            direction: input;
+        }
+        pin(C) {
+            direction: input;
+        }
+        pin(D) {
+            direction: input;
+        }
+        pin(Q) {
+            direction: output;
+            function: "((A+B+C+D))";
+        }
+    }
+    cell(OR5) {
+        area: 500;
+        pin(A) {
+            direction: input;
+        }
+        pin(B) {
+            direction: input;
+        }
+        pin(C) {
+            direction: input;
+        }
+        pin(D) {
+            direction: input;
+        }
+        pin(E) {
+            direction: input;
+        }
+        pin(Q) {
+            direction: output;
+            function: "((A+B+C+D+E))";
+        }
+    }
+    cell(OR6) {
+        area: 600;
+        pin(A) {
+            direction: input;
+        }
+        pin(B) {
+            direction: input;
+        }
+        pin(C) {
+            direction: input;
+        }
+        pin(D) {
+            direction: input;
+        }
+        pin(E) {
+            direction: input;
+        }
+        pin(F) {
+            direction: input;
+        }
+        pin(Q) {
+            direction: output;
+            function: "((A+B+C+D+E+F))";
+        }
+    }
+    cell(OR7) {
+        area: 700;
+        pin(A) {
+            direction: input;
+        }
+        pin(B) {
+            direction: input;
+        }
+        pin(C) {
+            direction: input;
+        }
+        pin(D) {
+            direction: input;
+        }
+        pin(E) {
+            direction: input;
+        }
+        pin(F) {
+            direction: input;
+        }
+        pin(G) {
+            direction: input;
+        }
+        pin(Q) {
+            direction: output;
+            function: "((A+B+C+D+E+F+G))";
+        }
+    }
+    cell(OR8) {
+        area: 800;
+        pin(A) {
+            direction: input;
+        }
+        pin(B) {
+            direction: input;
+        }
+        pin(C) {
+            direction: input;
+        }
+        pin(D) {
+            direction: input;
+        }
+        pin(E) {
+            direction: input;
+        }
+        pin(F) {
+            direction: input;
+        }
+        pin(G) {
+            direction: input;
+        }
+        pin(H) {
+            direction: input;
+        }
+        pin(Q) {
+            direction: output;
+            function: "((A+B+C+D+E+F+G+H))";
+        }
+    }
+    cell(OR9) {
+        area: 800;
+        pin(A) {
+            direction: input;
+        }
+        pin(B) {
+            direction: input;
+        }
+        pin(C) {
+            direction: input;
+        }
+        pin(D) {
+            direction: input;
+        }
+        pin(E) {
+            direction: input;
+        }
+        pin(F) {
+            direction: input;
+        }
+        pin(G) {
+            direction: input;
+        }
+        pin(H) {
+            direction: input;
+        }
+        pin(I) {
+            direction: input;
+        }
+        pin(Q) {
+            direction: output;
+            function: "((A+B+C+D+E+F+G+H+I))";
+        }
+    }
+    cell(OR10) {
+        area: 800;
+        pin(A) {
+            direction: input;
+        }
+        pin(B) {
+            direction: input;
+        }
+        pin(C) {
+            direction: input;
+        }
+        pin(D) {
+            direction: input;
+        }
+        pin(E) {
+            direction: input;
+        }
+        pin(F) {
+            direction: input;
+        }
+        pin(G) {
+            direction: input;
+        }
+        pin(H) {
+            direction: input;
+        }
+        pin(I) {
+            direction: input;
+        }
+        pin(J) {
+            direction: input;
+        }
+        pin(Q) {
+            direction: output;
+            function: "((A+B+C+D+E+F+G+H+I+J))";
+        }
+    }
+    cell(OR11) {
+        area: 800;
+        pin(A) {
+            direction: input;
+        }
+        pin(B) {
+            direction: input;
+        }
+        pin(C) {
+            direction: input;
+        }
+        pin(D) {
+            direction: input;
+        }
+        pin(E) {
+            direction: input;
+        }
+        pin(F) {
+            direction: input;
+        }
+        pin(G) {
+            direction: input;
+        }
+        pin(H) {
+            direction: input;
+        }
+        pin(I) {
+            direction: input;
+        }
+        pin(J) {
+            direction: input;
+        }
+        pin(K) {
+            direction: input;
+        }
+        pin(Q) {
+            direction: output;
+            function: "((A+B+C+D+E+F+G+H+I+J+K))";
+        }
+    }
+    cell(OR12) {
+        area: 800;
+        pin(A) {
+            direction: input;
+        }
+        pin(B) {
+            direction: input;
+        }
+        pin(C) {
+            direction: input;
+        }
+        pin(D) {
+            direction: input;
+        }
+        pin(E) {
+            direction: input;
+        }
+        pin(F) {
+            direction: input;
+        }
+        pin(G) {
+            direction: input;
+        }
+        pin(H) {
+            direction: input;
+        }
+        pin(I) {
+            direction: input;
+        }
+        pin(J) {
+            direction: input;
+        }
+        pin(K) {
+            direction: input;
+        }
+        pin(L) {
+            direction: input;
+        }
+        pin(Q) {
+            direction: output;
+            function: "((A+B+C+D+E+F+G+H+I+J+K+L))";
+        }
+    }
+    cell(OR2I1) {
+        area: 200;
+        pin(A) {
+            direction: input;
+        }
+        pin(BN) {
+            direction: input;
+        }
+        pin(Q) {
+            direction: output;
+            function: "((A+!BN))";
+        }
+    }
+    cell(OR2I2) {
+        area: 200;
+        pin(AN) {
+            direction: input;
+        }
+        pin(BN) {
+            direction: input;
+        }
+        pin(Q) {
+            direction: output;
+            function: "((!AN+!BN))";
+        }
+    }
+    cell(OR3I1) {
+        area: 300;
+        pin(A) {
+            direction: input;
+        }
+        pin(B) {
+            direction: input;
+        }
+        pin(CN) {
+            direction: input;
+        }
+        pin(Q) {
+            direction: output;
+            function: "((A+B+!CN))";
+        }
+    }
+    cell(OR3I2) {
+        area: 300;
+        pin(A) {
+            direction: input;
+        }
+        pin(BN) {
+            direction: input;
+        }
+        pin(CN) {
+            direction: input;
+        }
+        pin(Q) {
+            direction: output;
+            function: "((A+!BN+!CN))";
+        }
+    }
+    cell(OR3I3) {
+        area: 300;
+        pin(AN) {
+            direction: input;
+        }
+        pin(BN) {
+            direction: input;
+        }
+        pin(CN) {
+            direction: input;
+        }
+        pin(Q) {
+            direction: output;
+            function: "((!AN+!BN+!CN))";
+        }
+    }
+    cell(OR4I1) {
+        area: 400;
+        pin(A) {
+            direction: input;
+        }
+        pin(B) {
+            direction: input;
+        }
+        pin(C) {
+            direction: input;
+        }
+        pin(DN) {
+            direction: input;
+        }
+        pin(Q) {
+            direction: output;
+            function: "((A+B+C+!DN))";
+        }
+    }
+    cell(OR4I2) {
+        area: 400;
+        pin(A) {
+            direction: input;
+        }
+        pin(B) {
+            direction: input;
+        }
+        pin(CN) {
+            direction: input;
+        }
+        pin(DN) {
+            direction: input;
+        }
+        pin(Q) {
+            direction: output;
+            function: "((A+B+!CN+!DN))";
+        }
+    }
+    cell(OR4I3) {
+        area: 400;
+        pin(A) {
+            direction: input;
+        }
+        pin(BN) {
+            direction: input;
+        }
+        pin(CN) {
+            direction: input;
+        }
+        pin(DN) {
+            direction: input;
+        }
+        pin(Q) {
+            direction: output;
+            function: "((A+!BN+!CN+!DN))";
+        }
+    }
+    cell(OR4I4) {
+        area: 400;
+        pin(AN) {
+            direction: input;
+        }
+        pin(BN) {
+            direction: input;
+        }
+        pin(CN) {
+            direction: input;
+        }
+        pin(DN) {
+            direction: input;
+        }
+        pin(Q) {
+            direction: output;
+            function: "(!AN+!BN+!CN+!DN)";
+        }
+    }
+    cell(NOR2) {
+        area: 200;
+        pin(A) {
+            direction: input;
+        }
+        pin(B) {
+            direction: input;
+        }
+        pin(QN) {
+            direction: output;
+            function: "(!(A+B))";
+        }
+    }
+    cell(NOR3) {
+        area: 300;
+        pin(A) {
+            direction: input;
+        }
+        pin(B) {
+            direction: input;
+        }
+        pin(C) {
+            direction: input;
+        }
+        pin(QN) {
+            direction: output;
+            function: "(!(A+B+C))";
+        }
+    }
+    cell(NOR4) {
+        area: 400;
+        pin(A) {
+            direction: input;
+        }
+        pin(B) {
+            direction: input;
+        }
+        pin(C) {
+            direction: input;
+        }
+        pin(D) {
+            direction: input;
+        }
+        pin(QN) {
+            direction: output;
+            function: "(!(A+B+C+D))";
+        }
+    }
+    cell(NOR5) {
+        area: 500;
+        pin(A) {
+            direction: input;
+        }
+        pin(B) {
+            direction: input;
+        }
+        pin(C) {
+            direction: input;
+        }
+        pin(D) {
+            direction: input;
+        }
+        pin(E) {
+            direction: input;
+        }
+        pin(QN) {
+            direction: output;
+            function: "(!(A+B+C+D+E))";
+        }
+    }
+    cell(NOR6) {
+        area: 600;
+        pin(A) {
+            direction: input;
+        }
+        pin(B) {
+            direction: input;
+        }
+        pin(C) {
+            direction: input;
+        }
+        pin(D) {
+            direction: input;
+        }
+        pin(E) {
+            direction: input;
+        }
+        pin(F) {
+            direction: input;
+        }
+        pin(QN) {
+            direction: output;
+            function: "(!(A+B+C+D+E+F))";
+        }
+    }
+    cell(NOR7) {
+        area: 700;
+        pin(A) {
+            direction: input;
+        }
+        pin(B) {
+            direction: input;
+        }
+        pin(C) {
+            direction: input;
+        }
+        pin(D) {
+            direction: input;
+        }
+        pin(E) {
+            direction: input;
+        }
+        pin(F) {
+            direction: input;
+        }
+        pin(G) {
+            direction: input;
+        }
+        pin(QN) {
+            direction: output;
+            function: "(!(A+B+C+D+E+F+G))";
+        }
+    }
+    cell(NOR8) {
+        area: 800;
+        pin(A) {
+            direction: input;
+        }
+        pin(B) {
+            direction: input;
+        }
+        pin(C) {
+            direction: input;
+        }
+        pin(D) {
+            direction: input;
+        }
+        pin(E) {
+            direction: input;
+        }
+        pin(F) {
+            direction: input;
+        }
+        pin(G) {
+            direction: input;
+        }
+        pin(H) {
+            direction: input;
+        }
+        pin(QN) {
+            direction: output;
+            function: "(!(A+B+C+D+E+F+G+H))";
+        }
+    }
+    cell(NOR9) {
+        area: 800;
+        pin(A) {
+            direction: input;
+        }
+        pin(B) {
+            direction: input;
+        }
+        pin(C) {
+            direction: input;
+        }
+        pin(D) {
+            direction: input;
+        }
+        pin(E) {
+            direction: input;
+        }
+        pin(F) {
+            direction: input;
+        }
+        pin(G) {
+            direction: input;
+        }
+        pin(H) {
+            direction: input;
+        }
+        pin(I) {
+            direction: input;
+        }
+        pin(QN) {
+            direction: output;
+            function: "(!(A+B+C+D+E+F+G+H+I))";
+        }
+    }
+    cell(NOR10) {
+        area: 800;
+        pin(A) {
+            direction: input;
+        }
+        pin(B) {
+            direction: input;
+        }
+        pin(C) {
+            direction: input;
+        }
+        pin(D) {
+            direction: input;
+        }
+        pin(E) {
+            direction: input;
+        }
+        pin(F) {
+            direction: input;
+        }
+        pin(G) {
+            direction: input;
+        }
+        pin(H) {
+            direction: input;
+        }
+        pin(I) {
+            direction: input;
+        }
+        pin(J) {
+            direction: input;
+        }
+        pin(QN) {
+            direction: output;
+            function: "(!(A+B+C+D+E+F+G+H+I+J))";
+        }
+    }
+    cell(NOR11) {
+        area: 800;
+        pin(A) {
+            direction: input;
+        }
+        pin(B) {
+            direction: input;
+        }
+        pin(C) {
+            direction: input;
+        }
+        pin(D) {
+            direction: input;
+        }
+        pin(E) {
+            direction: input;
+        }
+        pin(F) {
+            direction: input;
+        }
+        pin(G) {
+            direction: input;
+        }
+        pin(H) {
+            direction: input;
+        }
+        pin(I) {
+            direction: input;
+        }
+        pin(J) {
+            direction: input;
+        }
+        pin(K) {
+            direction: input;
+        }
+        pin(QN) {
+            direction: output;
+            function: "(!(A+B+C+D+E+F+G+H+I+J+K))";
+        }
+    }
+    cell(NOR12) {
+        area: 800;
+        pin(A) {
+            direction: input;
+        }
+        pin(B) {
+            direction: input;
+        }
+        pin(C) {
+            direction: input;
+        }
+        pin(D) {
+            direction: input;
+        }
+        pin(E) {
+            direction: input;
+        }
+        pin(F) {
+            direction: input;
+        }
+        pin(G) {
+            direction: input;
+        }
+        pin(H) {
+            direction: input;
+        }
+        pin(I) {
+            direction: input;
+        }
+        pin(J) {
+            direction: input;
+        }
+        pin(K) {
+            direction: input;
+        }
+        pin(L) {
+            direction: input;
+        }
+        pin(QN) {
+            direction: output;
+            function: "(!(A+B+C+D+E+F+G+H+I+J+K+L))";
+        }
+    }
+    cell(NOR2I1) {
+        area: 200;
+        pin(A) {
+            direction: input;
+        }
+        pin(BN) {
+            direction: input;
+        }
+        pin(QN) {
+            direction: output;
+            function: "(!(A+!BN))";
+        }
+    }
+    cell(NOR2I2) {
+        area: 200;
+        pin(AN) {
+            direction: input;
+        }
+        pin(BN) {
+            direction: input;
+        }
+        pin(QN) {
+            direction: output;
+            function: "(!(!AN+!BN))";
+        }
+    }
+    cell(NOR3I1) {
+        area: 300;
+        pin(A) {
+            direction: input;
+        }
+        pin(B) {
+            direction: input;
+        }
+        pin(CN) {
+            direction: input;
+        }
+        pin(QN) {
+            direction: output;
+            function: "(!(A+B+!CN))";
+        }
+    }
+    cell(NOR3I2) {
+        area: 300;
+        pin(A) {
+            direction: input;
+        }
+        pin(BN) {
+            direction: input;
+        }
+        pin(CN) {
+            direction: input;
+        }
+        pin(QN) {
+            direction: output;
+            function: "(!(A+!BN+!CN))";
+        }
+    }
+    cell(NOR3I3) {
+        area: 300;
+        pin(AN) {
+            direction: input;
+        }
+        pin(BN) {
+            direction: input;
+        }
+        pin(CN) {
+            direction: input;
+        }
+        pin(QN) {
+            direction: output;
+            function: "(!(!AN+!BN+!CN))";
+        }
+    }
+    cell(NOR4I1) {
+        area: 400;
+        pin(A) {
+            direction: input;
+        }
+        pin(B) {
+            direction: input;
+        }
+        pin(C) {
+            direction: input;
+        }
+        pin(DN) {
+            direction: input;
+        }
+        pin(QN) {
+            direction: output;
+            function: "(!(A+B+C+!DN))";
+        }
+    }
+    cell(NOR4I2) {
+        area: 400;
+        pin(A) {
+            direction: input;
+        }
+        pin(B) {
+            direction: input;
+        }
+        pin(CN) {
+            direction: input;
+        }
+        pin(DN) {
+            direction: input;
+        }
+        pin(QN) {
+            direction: output;
+            function: "(!(A+B+!CN+!DN))";
+        }
+    }
+    cell(NOR4I3) {
+        area: 400;
+        pin(A) {
+            direction: input;
+        }
+        pin(BN) {
+            direction: input;
+        }
+        pin(CN) {
+            direction: input;
+        }
+        pin(DN) {
+            direction: input;
+        }
+        pin(QN) {
+            direction: output;
+            function: "(!(A+!BN+!CN+!DN))";
+        }
+    }
+    cell(NOR4I4) {
+        area: 400;
+        pin(AN) {
+            direction: input;
+        }
+        pin(BN) {
+            direction: input;
+        }
+        pin(CN) {
+            direction: input;
+        }
+        pin(DN) {
+            direction: input;
+        }
+        pin(QN) {
+            direction: output;
+            function: "(!(!AN+!BN+!CN+!DN))";
+        }
+    }
+    cell(XNOR2) {
+        area: 100;
+        pin(A) {
+            direction: input;
+        }
+        pin(B) {
+            direction: input;
+        }
+        pin(QN) {
+            direction: output;
+            function: "(!((A+B) !(A B)))";
+        }
+    }
+    cell(MUX2) {
+        area: 800;
+        pin(S0) {
+            direction: input;
+        }
+        pin(M0) {
+            direction: input;
+        }
+        pin(M1) {
+            direction: input;
+        }
+        pin(Q) {
+            direction: output;
+            function: "((!S0 M0)+(S0 M1))";
+        }
+    }
+    cell(MUX4) {
+        area: 800;
+        pin(S0) {
+            direction: input;
+        }
+        pin(S1) {
+            direction: input;
+        }
+        pin(M0) {
+            direction: input;
+        }
+        pin(M1) {
+            direction: input;
+        }
+        pin(M2) {
+            direction: input;
+        }
+        pin(M3) {
+            direction: input;
+        }
+        pin(Q) {
+            direction: output;
+            function: "((!S1 !S0 M0)+(!S1 S0 M1)+(S1 !S0 M2)+(S1 S0 M3))";
+        }
+    }
+    cell(MUX8) {
+        area: 800;
+        pin(S0) {
+            direction: input;
+        }
+        pin(S1) {
+            direction: input;
+        }
+        pin(S2) {
+            direction: input;
+        }
+        pin(M0) {
+            direction: input;
+        }
+        pin(M1) {
+            direction: input;
+        }
+        pin(M2) {
+            direction: input;
+        }
+        pin(M3) {
+            direction: input;
+        }
+        pin(M4) {
+            direction: input;
+        }
+        pin(M5) {
+            direction: input;
+        }
+        pin(M6) {
+            direction: input;
+        }
+        pin(M7) {
+            direction: input;
+        }
+        pin(Q) {
+            direction: output;
+            function: "((!S2 !S1 !S0 M0)+(!S2 !S1 S0 M1)+(!S2 S1 !S0 M2)+(!S2 S1 S0 M3)+(S2 !S1 !S0 M4)+(S2 !S1 S0 M5)+(S2 S1 !S0 M6)+(S2 S1 S0 M7))";
+        }
+    }
+    cell(DFF) {
+        area: 600;
+        ff("IQ", "IQN") {
+            clocked_on: CLK;
+            next_state: D;
+        }
+        pin(CLK) {
+            direction: input;
+            clock: true;
+        }
+        pin(D) {
+            direction: input;
+        }
+        pin(Q) {
+            direction: output;
+            function: "IQ";
+        }
+        pin(QN) {
+            direction: output;
+            function: "IQN";
+        }
+        ; // empty statement
+    }
+    cell(DFFAR) {
+        area: 600;
+        ff("IQ", "IQN") {
+            clocked_on: CLK;
+            next_state: D;
+            clear: AR;
+        }
+        pin(CLK) {
+            direction: input;
+            clock: true;
+        }
+        pin(D) {
+            direction: input;
+        }
+        pin(AR) {
+            direction: input;
+        }
+        pin(Q) {
+            direction: output;
+            function: "IQ";
+        }
+        pin(QN) {
+            direction: output;
+            function: "IQN";
+        }
+        ; // empty statement
+    }
+    cell(DFFAS) {
+        area: 600;
+        ff("IQ", "IQN") {
+            clocked_on: CLK;
+            next_state: D;
+            preset: AS;
+        }
+        pin(CLK) {
+            direction: input;
+            clock: true;
+        }
+        pin(D) {
+            direction: input;
+        }
+        pin(AS) {
+            direction: input;
+        }
+        pin(Q) {
+            direction: output;
+            function: "IQ";
+        }
+        pin(QN) {
+            direction: output;
+            function: "IQN";
+        }
+        ; // empty statement
+    }
+    cell(DFFARS) {
+        area: 600;
+        ff("IQ", "IQN") {
+            clocked_on: CLK;
+            next_state: D;
+            preset: AS;
+            clear: AR;
+        }
+        pin(CLK) {
+            direction: input;
+            clock: true;
+        }
+        pin(D) {
+            direction: input;
+        }
+        pin(AR) {
+            direction: input;
+        }
+        pin(AS) {
+            direction: input;
+        }
+        pin(Q) {
+            direction: output;
+            function: "IQ";
+        }
+        pin(QN) {
+            direction: output;
+            function: "IQN";
+        }
+        ; // empty statement
+    }
+}

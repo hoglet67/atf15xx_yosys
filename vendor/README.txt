@@ -1,0 +1,7 @@
+Populate this directory with files with the following sha1sum:
+
+4ea7f7c5696990d84b587f4145ae0625ae9116eb  aprim.lib
+7e7010a44455e01e1db6a1f18f320823dcfb5d61  atmel.std
+fbcd61cd5348b05000ccad3d0e08cf8a8fb94538  fit1502.exe
+e99b14f68fa5de131aa388503535c51ecdf31295  fit1504.exe
+5f1ef6d220466dff8ac031acbce4e7a55dfed153  fit1508.exe
