@@ -72,7 +72,7 @@ library(atf15xx) {
             direction: output;
         }
         pin(PAD) {
-            direction: input;
+            direction: inout;
         }
     }
     cell(INV) {

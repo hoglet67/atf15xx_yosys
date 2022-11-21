@@ -34,7 +34,18 @@ char* make_input(char *name) {
 void make_output(char *name, char *function) {
    printf("        pin(%s) {\n", name);
    printf("            direction: output;\n");
-   printf("            function: \"%s\";\n", function);
+   if (function) {
+      printf("            function: \"%s\";\n", function);
+   }
+   printf("        }\n");
+}
+
+void make_inout(char *name, char *function) {
+   printf("        pin(%s) {\n", name);
+   printf("            direction: inout;\n");
+   if (function) {
+      printf("            function: \"%s\";\n", function);
+   }
    printf("        }\n");
 }
 
@@ -49,6 +60,17 @@ void make_gate(char *name, int area, char *inputs, char *output, char *function 
 
 }
 
+void make_bibuf() {
+   printf("    cell(bibuf) {\n");
+   printf("        area: 0;\n");
+   make_input("A");
+   make_input("EN");
+   make_output("Q", NULL);
+   make_inout("PAD", NULL);
+   printf("    }\n");
+
+
+}
 
 void make_dff(char *name, int area, int inc_clken, int inc_rst, int inc_set) {
    printf("    cell(%s) {\n", name);
@@ -100,6 +122,8 @@ void main() {
    make_gate("OUTBUF",  100, "A",                          "Q",  "(A)");
    make_gate("INBUF",   100, "A",                          "Q",  "(A)");
    make_gate("IBUF",    100, "A",                          "Q",  "(A)");
+   make_bibuf();
+
    make_gate("INV",     100, "A",                          "QN", "(!A)");
    make_gate("XOR",     300, "A B",                        "Q",  "(A !B + !A B)");
    make_gate("XOR2",    300, "A B",                        "Q",  "(A !B + !A B)");
