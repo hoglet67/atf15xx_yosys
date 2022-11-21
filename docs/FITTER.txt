@@ -1,0 +1,14 @@
+Atmel ATF1508 Fitter Version 1918 (3-21-07)
+Copyright 1999,2000 Atmel Corporation
+ Usage: FIT1508.EXE [-i] input_file[.tt2] {options}
+ Options:
+   -help
+   -o output_file_name (for *.tt3 and *.jed)
+   -device package_type (PLCC84/TQFP100/PQFP100/PQFP160)
+   -tech tech_name (ATF1508AS/ATF1508ASV/ATF1508BE)
+   -module module_name
+   -preassign TRY|keep|ignore (pin preassignment options)
+   -silent (no message on screen)
+   -h2 (advanced help option)
+   -has (advanced help option for AS)
+   -hbe (advanced help option for BE)
