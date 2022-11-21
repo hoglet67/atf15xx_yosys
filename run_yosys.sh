@@ -7,13 +7,22 @@ NAME=$1; shift
 yosys <<EOF
 read_liberty -lib ${ROOT}/cells.lib
 read_verilog ${NAME}.v
-tribuf -logic
+stat
+tribuf
+stat
 synth -top ${NAME}
+stat
 dfflibmap -liberty ${ROOT}/cells.lib
+stat
 abc -liberty ${ROOT}/cells.lib
-hilomap -hicell VCC Q -locell GND Q
+stat
+#hilomap -hicell VCC X -locell GND X
+#stat
 iopadmap -bits -inpad INBUF Q:A -outpad BUF A:Q -tinoutpad bibuf EN:Q:A:PAD
+stat
 clean
+stat
 hierarchy
+stat
 write_edif ${NAME}.edif
 EOF
