@@ -134,17 +134,26 @@ module mmu
       end
    end
 
-   assign DATA = E && RnW && ADDR == IO_PAGE + 16'h0010 ? {6'b0, mode8k, enmmu} :
-                 E && RnW && ADDR == IO_PAGE + 16'h0011 ? {3'b0, access_key} :
-                 E && RnW && ADDR == IO_PAGE + 16'h0012 ? {3'b0, task_key} :
-                 E && mmu_access_rd                     ? MMU_DATA :
-                 8'hZZ;
+
+   wire [7:0] data_out = ADDR == IO_PAGE + 16'h0010 ? {6'b0, mode8k, enmmu} :
+                         ADDR == IO_PAGE + 16'h0011 ? {3'b0, access_key} :
+                         ADDR == IO_PAGE + 16'h0012 ? {3'b0, task_key} :
+                         {ADDR[15:4], 4'b0} == IO_PAGE + 16'h0010 ? 8'hAA : // unused registers
+                         MMU_DATA;
+
+   wire       data_en = E & (mmu_access_rd | (RnW & {ADDR[15:4], 4'b0} == IO_PAGE + 16'h0010));
+
+   assign DATA = data_en ? data_out : 8'hZZ;
 
    assign MMU_ADDR = mmu_access ? {access_key, ADDR[2:0]} : {task_key, ADDR[15:13]};
 // assign MMU_nCS  = 1'b0;
    assign MMU_nRD  = !(enmmu & !mmu_access_wr);
    assign MMU_nWR  = !(E     &  mmu_access_wr);
-   assign MMU_DATA = (mmu_access_wr & E) ? DATA : enmmu ? 8'hZZ : {5'b00000, ADDR[15:13]};
+
+   wire [7:0] mmu_data_out = mmu_access_wr ? DATA : {5'b00000, ADDR[15:13]};
+   wire       mmu_data_en = (mmu_access_wr & E) | !enmmu;
+
+   assign MMU_DATA = mmu_data_en ? mmu_data_out : 8'hZZ;
 
    assign QA13 = mode8k ? MMU_DATA[5] : ADDR[13];
 
