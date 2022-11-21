@@ -11,8 +11,6 @@ PACKAGE=PLCC84
 NAME=$1; shift
 OPTS=$(grep '//OPT:' ${NAME}.v | cut -d' ' -f2-)
 
-
-#grep '//PIN:' ${NAME}.v | cut -d' ' -f2- | tee ${NAME}.pin
-
+grep '//PIN:' ${NAME}.v | cut -d' ' -f2- | tee ${NAME}.pin
 
 wine ${FITTERDIR}\\fit${DEVICE}.exe -i ${NAME}.edif -o ${NAME}.jed -device ${PACKAGE} -tech ATF${DEVICE}AS -strategy ifmt=edif -strategy optimize=on -strategy DEBUG=off -strategy Verilog_sim Verilog ${OPTS}
