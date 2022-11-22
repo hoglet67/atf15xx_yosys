@@ -2037,6 +2037,40 @@ library(atf15xx) {
             function: "((!S2 !S1 !S0 M0)+(!S2 !S1 S0 M1)+(!S2 S1 !S0 M2)+(!S2 S1 S0 M3)+(S2 !S1 !S0 M4)+(S2 !S1 S0 M5)+(S2 S1 !S0 M6)+(S2 S1 S0 M7))";
         }
     }
+    cell(DFFEARS) {
+        area: 600;
+        ff("IQ", "IQN") {
+            clocked_on: CLK;
+            next_state: D;
+            preset: AS;
+            clear: AR;
+        }
+        pin(CLK) {
+            direction: input;
+            clock: true;
+        }
+        pin(D) {
+            direction: input;
+        }
+        pin(CE) {
+            direction: input;
+        }
+        pin(AR) {
+            direction: input;
+        }
+        pin(AS) {
+            direction: input;
+        }
+        pin(Q) {
+            direction: output;
+            function: "IQ";
+        }
+        pin(QN) {
+            direction: output;
+            function: "IQN";
+        }
+        ; // empty statement
+    }
     cell(DFF) {
         area: 600;
         ff("IQ", "IQN") {
@@ -2048,6 +2082,32 @@ library(atf15xx) {
             clock: true;
         }
         pin(D) {
+            direction: input;
+        }
+        pin(Q) {
+            direction: output;
+            function: "IQ";
+        }
+        pin(QN) {
+            direction: output;
+            function: "IQN";
+        }
+        ; // empty statement
+    }
+    cell(DFFE) {
+        area: 600;
+        ff("IQ", "IQN") {
+            clocked_on: CLK;
+            next_state: D;
+        }
+        pin(CLK) {
+            direction: input;
+            clock: true;
+        }
+        pin(D) {
+            direction: input;
+        }
+        pin(CE) {
             direction: input;
         }
         pin(Q) {
@@ -2133,6 +2193,36 @@ library(atf15xx) {
             direction: input;
         }
         pin(AS) {
+            direction: input;
+        }
+        pin(Q) {
+            direction: output;
+            function: "IQ";
+        }
+        pin(QN) {
+            direction: output;
+            function: "IQN";
+        }
+        ; // empty statement
+    }
+    cell(LATCH) {
+        area: 500;
+        latch("IQ", "IQN") {
+            data_in: D;
+            enable: EN;
+            preset: AS;
+            clear: AR;
+        }
+        pin(D) {
+            direction: input;
+        }
+        pin(EN) {
+            direction: input;
+        }
+        pin(AS) {
+            direction: input;
+        }
+        pin(AR) {
             direction: input;
         }
         pin(Q) {

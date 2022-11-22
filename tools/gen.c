@@ -102,6 +102,24 @@ void make_dff(char *name, int area, int inc_clken, int inc_rst, int inc_set) {
    printf("    }\n");
 }
 
+void make_latch(char *name, int area) {
+   printf("    cell(%s) {\n", name);
+   printf("        area: %d;\n", area);
+   printf("        latch(\"IQ\", \"IQN\") {\n");
+   printf("            data_in: D;\n");
+   printf("            enable: EN;\n");
+   printf("            preset: AS;\n");
+   printf("            clear: AR;\n");
+   printf("        }\n");
+   make_input("D");
+   make_input("EN");
+   make_input("AS");
+   make_input("AR");
+   make_output("Q", "IQ");
+   make_output("QN", "IQN");
+   printf("        ; // empty statement\n");
+   printf("    }\n");
+}
 
 
 void main() {
@@ -226,15 +244,18 @@ void main() {
    // PGATE  0 0	DG	DFFAS 6.00		CLK RECK * AS * * D Q QN *
    // PGATE  0 0	DG	DFFARS 6.00		CLK RECK AR AS * * D Q QN *
 
-   //   make_dff("DFFEARS", 600, 1, 1, 1);
+   make_dff("DFFEARS", 600, 1, 1, 1);
    make_dff("DFF",     600, 0, 0, 0);
-   //   make_dff("DFFE",    600, 1, 0, 0);
+   make_dff("DFFE",    600, 1, 0, 0);
    make_dff("DFFAR",   600, 0, 1, 0);
    make_dff("DFFAS",   600, 0, 0, 1);
    make_dff("DFFARS",  600, 0, 1, 1);
 
 
    // PGATE  0 0 	LG 	LATCH  5.00		EN L1 AR AS CE * D Q QN *
+
+   make_latch("LATCH", 500);
+
    // PGATE  0 0	JKG	JKFFEARS 12.00		CLK RECK !ANR !ANS CE * J K Q QN *
    // PGATE  0 0	TG	TFF     12.00		CLK RECK * * * * T Q QN *
    // PGATE  0 0	TG	TFFE    12.00		CLK RECK * * CE * T Q QN *

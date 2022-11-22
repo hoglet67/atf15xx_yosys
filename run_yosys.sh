@@ -12,6 +12,10 @@ tribuf
 stat
 synth -top ${NAME}
 stat
+techmap -map ${ROOT}/techmap.v
+stat
+simplemap
+stat
 dfflibmap -liberty ${ROOT}/cells.lib
 stat
 abc -liberty ${ROOT}/cells.lib
