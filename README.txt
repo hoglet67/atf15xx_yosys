@@ -7,7 +7,7 @@ Quick Start Guide
 
 sudo apt-get install wine-stable
 
-2. Download and install the latest nightly of the Yosys Open-Source CAS Suite
+2. Download and install the latest nightly of the Yosys Open-Source CAD Suite
 
 https://github.com/YosysHQ/oss-cad-suite-build/releases
 
@@ -54,3 +54,18 @@ This creates several files, the most important being:
 mmu.fit  - the fitter report
 mmu.vo   - a gate-level verilog for timing simulation
 mmu.jed  - a JEDEC file for programming with Atmisp
+
+KNOWN ISSUES
+------------
+
+The Yosys EDIF output deliberately reverses the bit-order of multi-bit
+ports, as this is what is expected by Vivado. Unfortunately it's not
+what is expected by the Atmel fitter.
+
+There is a open issue for this:
+- EDIF: add support for different flavors of bit indexing
+- https://github.com/YosysHQ/yosys/issues/568
+
+As a work-around, you can reverse the index in the pin assignments to
+compensate, but it makes reading the fitter equations incredibly
+confusing.
