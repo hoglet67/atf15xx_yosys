@@ -40,9 +40,11 @@ module mmu
    );
 
    parameter IO_PAGE = 16'hFE00;
-   wire io_access  = {ADDR[15:8], 8'h00} == IO_PAGE;
-   wire io_access_int = io_access & (ADDR[7:0] < 8'h30);
-   wire mmu_access = {ADDR[15:3], 3'b000} == IO_PAGE + 16'h0020;
+
+   (* keep *) wire io_access  = {ADDR[15:8], 8'h00} == IO_PAGE;
+   (* keep *) wire io_access_int = io_access & (ADDR[7:0] < 8'h30);
+   (* keep *) wire mmu_access = {ADDR[15:3], 3'b000} == IO_PAGE + 16'h0020;
+
    wire mmu_access_rd = mmu_access & RnW;
    wire mmu_access_wr = mmu_access & !RnW;
    wire access_vector = (!BA & BS & RnW);
