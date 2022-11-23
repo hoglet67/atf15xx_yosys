@@ -1,21 +1,17 @@
 module counter
   (
-   // Clock Generator (for the E Parts)
-   input        CLKX4,
-   input        MRDY,
-   output reg   QX,
-   output reg   EX
-
+   input        clock,
+   output reg [1:0] counter
    );
 
-   always @(posedge CLKX4) begin
-      // Q leads E
-      case ({QX, EX})
-        2'b00: QX <= 1'b1;
-        2'b10: EX <= 1'b1;
-        2'b11: QX <= 1'b0;
-        2'b01: if (MRDY) EX <= 0;
-      endcase
+   always @(posedge clock) begin
+      counter <= counter + 1;
    end
 
 endmodule
+// Pin assignment for the experimental Yosys FLoow
+//
+//PIN: CHIP "counter" ASSIGNED TO AN PLCC84
+//PIN: clock      : 83
+//PIN: counter_0  : 37
+//PIN: counter_1  : 39
