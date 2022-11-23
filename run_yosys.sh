@@ -10,7 +10,7 @@ read_verilog ${NAME}.v
 stat
 tribuf
 stat
-synth -top ${NAME}
+synth -noabc -top ${NAME}
 stat
 techmap -map ${ROOT}/techmap.v
 stat
