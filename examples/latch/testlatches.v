@@ -10,19 +10,19 @@ module testlatches
    );
 
    // Infer a transparent latch
-   always @(en, d)
+   always @(*)
      if (en == 1)
        q1 <= d;
 
    // Infer a set-reset latch
-   always @(s, r)
+   always @(*)
      if (r == 1)
     	 q2 <= 1'b0;
      else if (s == 1)
        q2 <= 1'b1;
 
    // Infer a Transparent latch with S and R
-   always @(s, r, en, d)
+   always @(*)
      if (r == 1)
     	 q3 <= 1'b0;
      else if (s == 1)
