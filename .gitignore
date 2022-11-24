@@ -2,3 +2,8 @@
 *~
 not_in_git/
 tools/gen
+vendor/aprim.lib
+vendor/atmel.std
+vendor/fit1502.exe
+vendor/fit1504.exe
+vendor/fit1508.exe
