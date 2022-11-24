@@ -5,7 +5,7 @@ Quick Start Guide
 
 1. Install wine
 
-sudo apt-get install wine-stable
+sudo apt-get install wine-stable winetricks
 
 2. Download and install the latest nightly of the Yosys Open-Source CAD Suite
 
@@ -22,11 +22,13 @@ export PATH=~/oss-cad-suite/bin:$PATH
 cd $HOME
 git clone https://github.com/hoglet67/atf15xx_yosys.git
 
-4. Install the Atmel fitter binaries in $HOME/atf15xx_yosys/vendor/
+4. Copy the Atmel fitter binaries in $HOME/atf15xx_yosys/vendor/
 
 These need to be extracted from the Microchip ProChip Designer download:
 
 http://ww1.microchip.com/downloads/en/DeviceDoc/ProChip5.0.1.zip
+
+Either install ProChip Designer on a Windows machine, or extract the files locally using wine:
 
 cd $HOME
 wget http://ww1.microchip.com/downloads/en/DeviceDoc/ProChip5.0.1.zip
