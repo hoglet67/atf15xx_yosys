@@ -30,3 +30,14 @@ hierarchy
 stat
 write_edif ${NAME}.edif
 EOF
+
+# The Atmel tools need the bit order of the array ports reversed, so bit 0 is the LSB.
+# See https://github.com/YosysHQ/yosys/issues/568
+#
+# This changes:
+#    (port (array ADDR 16) (direction INPUT))
+# to:
+#    (port (array (rename ADDR "ADDR(15:0)") 16) (direction INPUT))
+
+perl -pe 's/\(array\s+(\w+)\s+(\d+)/"(array (rename $1 \"$1(" . ($2 - 1) . ":0)\") $2"/ge;' < ${NAME}.edif > tmp.edif
+mv tmp.edif ${NAME}.edif
