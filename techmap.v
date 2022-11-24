@@ -281,7 +281,6 @@ module $_DFFE_NN0P_ (input D, input C, input R, input E, output Q);
         .CLK(!C),
         .CE(E),
         .AR(!R),
-        .AS(S),
         .D(D),
         .Q(Q),
         );
@@ -294,7 +293,7 @@ module $_DFFE_PP1P_ (input D, input C, input R, input E, output Q);
     DFFEARS _TECHMAP_REPLACE_ (
         .CLK(C),
         .CE(E),
-        .AS(S),
+        .AS(R),
         .D(D),
         .Q(Q),
         );
