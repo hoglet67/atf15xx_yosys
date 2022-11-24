@@ -28,6 +28,13 @@ These need to be extracted from the Microchip ProChip Designer download:
 
 http://ww1.microchip.com/downloads/en/DeviceDoc/ProChip5.0.1.zip
 
+cd $HOME
+wget http://ww1.microchip.com/downloads/en/DeviceDoc/ProChip5.0.1.zip
+unzip ProChip5.0.1.zip
+WINEPREFIX=$HOME/.wine32 WINEARCH=win32 winetricks vcrun6sp6
+WINEPREFIX=$HOME/.wine32 WINEARCH=win32 wine ProChip5_setup.exe
+cp $HOME/.wine32/drive_c/ATMEL_PLS_Tools/Prochip/pldfit/{atmel.std,aprim.lib,fit150?.exe} $HOME/atf15xx_yosys/vendor/
+
 These are the sha1sums of the files you should end up with in vendor/
 4ea7f7c5696990d84b587f4145ae0625ae9116eb  aprim.lib
 7e7010a44455e01e1db6a1f18f320823dcfb5d61  atmel.std
