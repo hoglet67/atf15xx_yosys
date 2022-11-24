@@ -41,13 +41,13 @@ cd $HOME/atf15xx_yosys/examples/mmu
 
 Run Yosys:
 
-../../run_yosys mmu
+../../run_yosys.sh mmu
 
 This should create mmu.edif
 
 Run the Fitter:
 
-../../run_fitter mmu
+../../run_fitter.sh mmu
 
 This creates several files, the most important being:
 
