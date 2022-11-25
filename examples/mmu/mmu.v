@@ -72,35 +72,45 @@ module mmu
          if (!RnW && ADDR == IO_PAGE + 16'h0012) begin
             task_key <= DATA[4:0];
          end
-         if (RnW && ADDR == IO_PAGE + 16'h0013) begin
-            //DB: switch task automatically when access RTI
-            S <= 1'b0;
-         end
          if (access_vector) begin
             //DB: switch task automatically when vector fetch
             S <= 1'b1;
+         end else if (RnW && ADDR == IO_PAGE + 16'h0013) begin
+            //DB: switch task automatically when access RTI
+            S <= 1'b0;
          end
       end
    end
 
-   wire [7:0] data_out = ADDR == IO_PAGE + 16'h0010 ? {5'b0, S, mode8k, enmmu} :
-                         ADDR == IO_PAGE + 16'h0011 ? {3'b0, access_key} :
-                         ADDR == IO_PAGE + 16'h0012 ? {3'b0, task_key} :
-                         ADDR == IO_PAGE + 16'h0013 ? {8'h3b} :
-                         ADDR == IO_PAGE + 16'h0014 ? {8'h3b} :
-                         MMU_DATA;
+   reg [7:0] data_out;
 
-   wire       data_en = E & RnW & (mmu_access | ({ADDR[15:4], 4'b0} == IO_PAGE + 16'h0010));
+   always @(*) begin
+      case (ADDR)
+        IO_PAGE + 16'h0010 : data_out = {5'b0, S, mode8k, enmmu};
+        IO_PAGE + 16'h0011 : data_out = {3'b0, access_key};
+        IO_PAGE + 16'h0012 : data_out = {3'b0, task_key};
+        IO_PAGE + 16'h0013 : data_out = {8'h3b};
+        default: data_out = MMU_DATA;
+      endcase
+   end
+
+   wire data_en = E & RnW & (mmu_access | ({ADDR[15:4], 4'b0} == IO_PAGE + 16'h0010));
 
    //Yosys will only infer tristate buffers when the ZZ is in the outer most MUX.
    assign DATA = data_en ? data_out : 8'hZZ;
 
    //DB: mask out bottom part ADDR when in 16k mode
-   assign MMU_ADDR = mmu_access     ? {access_key, ADDR[2:0]} :
-                     access_vector  ? {5'b0, ADDR[15:14], ADDR[13] & mode8k} :
-                     S              ? {5'b0, ADDR[15:14], ADDR[13] & mode8k} :
-                     {task_key, ADDR[15:14], ADDR[13] & mode8k};
-// assign MMU_nCS  = 1'b0;
+   assign MMU_ADDR[2:0] = mmu_access ? ADDR[2:0] : { ADDR[15:14], ADDR[13] & mode8k };
+
+   // Note: ORing works because the two conditions are mutually exclusive, which
+   // they are if MMU access is only allowed when S=1.
+   assign MMU_ADDR[7:3] = access_key & {5{mmu_access}} | task_key & {5{(!access_vector & !S)}};
+
+// assign MMU_ADDR[7:3] = mmu_access            ? access_key :
+//                        (!access_vector & !S) ? task_key   :
+//                        5'b0;
+
+   // assign MMU_nCS  = 1'b0;
    assign MMU_nRD  = !(enmmu & !mmu_access_wr);
 
    //DB: I add an extra gating signal here, this might not work for a non-E part?
