@@ -28,6 +28,9 @@ clean
 stat
 hierarchy
 stat
+splitnets -format _
+rename -wire -suffix _reg t:*DFF*
+rename -wire -suffix _comb
 write_edif ${NAME}.edif
 EOF
 
