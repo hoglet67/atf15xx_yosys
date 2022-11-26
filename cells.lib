@@ -95,7 +95,7 @@ library(atf15xx) {
         }
         pin(Q) {
             direction: output;
-            function: "(A !B + !A B)";
+            function: "(A ^ B)";
         }
     }
     cell(XOR2) {
@@ -108,7 +108,7 @@ library(atf15xx) {
         }
         pin(Q) {
             direction: output;
-            function: "(A !B + !A B)";
+            function: "(A ^ B)";
         }
     }
     cell(AND2) {
@@ -1953,7 +1953,7 @@ library(atf15xx) {
         }
         pin(QN) {
             direction: output;
-            function: "(!((A+B) !(A B)))";
+            function: "(!(A ^ B))";
         }
     }
     cell(MUX2) {

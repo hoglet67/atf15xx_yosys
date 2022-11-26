@@ -143,8 +143,8 @@ void main() {
    make_bibuf();
 
    make_gate("INV",     100, "A",                          "QN", "(!A)");
-   make_gate("XOR",     300, "A B",                        "Q",  "(A !B + !A B)");
-   make_gate("XOR2",    300, "A B",                        "Q",  "(A !B + !A B)");
+   make_gate("XOR",     300, "A B",                        "Q",  "(A ^ B)");
+   make_gate("XOR2",    300, "A B",                        "Q",  "(A ^ B)");
 
    make_gate("AND2",    200, "A B",                        "Q",  "((A B))");
    make_gate("AND3",    300, "A B C",                      "Q",  "((A B C))");
@@ -231,7 +231,7 @@ void main() {
    make_gate("NOR4I3",  400, "A BN CN DN",                 "QN", "(!(A+!BN+!CN+!DN))");
    make_gate("NOR4I4",  400, "AN BN CN DN",                "QN", "(!(!AN+!BN+!CN+!DN))");
 
-   make_gate("XNOR2",   100, "A B ",                       "QN",  "(!((A+B) !(A B)))"); // Change function?
+   make_gate("XNOR2",   100, "A B ",                       "QN",  "(!(A ^ B))");
 
    make_gate("MUX2",    800, "S0 M0 M1",                   "Q",   "((!S0 M0)+(S0 M1))");
    make_gate("MUX4",    800, "S0 S1 M0 M1 M2 M3",          "Q",   "((!S1 !S0 M0)+(!S1 S0 M1)+(S1 !S0 M2)+(S1 S0 M3))");
