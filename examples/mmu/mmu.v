@@ -1,3 +1,5 @@
+//`define use_alternative_clkgen
+
 module mmu
   (
    // CPU
@@ -42,7 +44,14 @@ module mmu
    parameter IO_PAGE = 16'hFE00;
 
    (* keep *) wire io_access  = {ADDR[15:8], 8'h00} == IO_PAGE;
+
+   // (* keep *) wire io_access_int = io_access & (ADDR[7:0] < 8'h30);                             // 159 pts
+   // (* keep *) wire io_access_int = {ADDR[15:8], 8'h00} == IO_PAGE && ADDR[5:0] < 8'h30;         // 159 pts (same logic)
+   // (* keep *) wire io_access_int = {ADDR[15:6], 6'b000000} == IO_PAGE && (ADDR[5:0] < 8'h30);   // 160 pts
+   // (* keep *) wire io_access_int = {ADDR[15:6], 6'b000000} == IO_PAGE && (!ADDR[5] | !ADDR[4]); // 160 pts
+
    (* keep *) wire io_access_int = io_access & (ADDR[7:0] < 8'h30);
+
    (* keep *) wire mmu_access = {ADDR[15:3], 3'b000} == IO_PAGE + 16'h0020;
 
    wire mmu_access_rd = mmu_access & RnW;
@@ -126,7 +135,13 @@ module mmu
    assign QA13 = mode8k ? MMU_DATA[5] : ADDR[13];
 
    always @(posedge CLKX4) begin
-      // Q leads E
+      // Q leads E, stop in state QX=0 EX=1
+`ifdef use_alternative_clkgen
+      // This uses 3 product terms
+      QX <= !EX;
+      EX <= (EX & !MRDY) | QX;
+`else
+      // This uses 8 product terms, because it triggers inefficient use of clock enable
       case ({QX, EX})
         2'b00: QX <= 1'b1;
         2'b10: EX <= 1'b1;
@@ -137,6 +152,7 @@ module mmu
            EX <= 1'b0;
         end
       endcase
+`endif
    end
 
    assign A11X = ADDR[11] ^ access_vector;
