@@ -12,7 +12,7 @@ tribuf
 stat
 synth -noabc -top ${NAME}
 stat
-techmap -map ${ROOT}/techmap.v
+techmap -map ${ROOT}/techmap.v -D skip_DFFE_XX_
 stat
 simplemap
 stat

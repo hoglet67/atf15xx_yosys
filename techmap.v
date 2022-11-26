@@ -208,6 +208,7 @@ module $_DLATCHSR_PPP_ (input E, input S, input R, input D, output Q);
         );
 endmodule
 
+`ifndef skip_DFFE_XX_
 
 // Yosys edge triggered d-type FFs with clock enable
 //    $_DFFE_NN_       (D, C, E, Q)
@@ -255,6 +256,7 @@ module $_DFFE_PP_ (input D, input C, input E, output Q);
         );
 endmodule
 
+`endif
 
 // Yosys edge triggered d-type FFs with clock enable and one set or reset input
 //    $_DFFE_NN0N_     (D, C, R, E, Q)
