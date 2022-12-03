@@ -10,7 +10,7 @@ read_verilog ${NAME}.v
 stat
 tribuf
 stat
-synth -noabc -top ${NAME}
+synth -flatten -noabc -top ${NAME}
 stat
 techmap -map ${ROOT}/techmap.v -D skip_DFFE_XX_
 stat
@@ -22,7 +22,7 @@ abc -liberty ${ROOT}/cells.lib
 stat
 #hilomap -hicell VCC X -locell GND X
 #stat
-iopadmap -bits -inpad INBUF Q:A -outpad BUF A:Q -tinoutpad bibuf EN:Q:A:PAD
+iopadmap -bits -inpad INBUF Q:A -outpad BUF A:Q -toutpad TRI ENA:A:Q -tinoutpad bibuf EN:Q:A:PAD
 stat
 clean
 stat
@@ -31,6 +31,7 @@ stat
 splitnets -format _
 rename -wire -suffix _reg t:*DFF*
 rename -wire -suffix _comb
+#write_edif -attrprop ${NAME}.edif
 write_edif ${NAME}.edif
 EOF
 

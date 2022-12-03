@@ -68,8 +68,15 @@ void make_bibuf() {
    make_output("Q", NULL);
    make_inout("PAD", NULL);
    printf("    }\n");
+}
 
-
+void make_tri() {
+   printf("    cell(TRI) {\n");
+   printf("        area: 0;\n");
+   make_input("A");
+   make_input("EN");
+   make_output("Q", NULL);
+   printf("    }\n");
 }
 
 void make_dff(char *name, int area, int inc_clken, int inc_rst, int inc_set) {
@@ -141,6 +148,7 @@ void main() {
    make_gate("INBUF",   100, "A",                          "Q",  "(A)");
    make_gate("IBUF",    100, "A",                          "Q",  "(A)");
    make_bibuf();
+   make_tri();
 
    make_gate("INV",     100, "A",                          "QN", "(!A)");
    make_gate("XOR",     300, "A B",                        "Q",  "(A ^ B)");

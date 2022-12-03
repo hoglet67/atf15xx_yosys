@@ -75,6 +75,18 @@ library(atf15xx) {
             direction: inout;
         }
     }
+    cell(TRI) {
+        area: 0;
+        pin(A) {
+            direction: input;
+        }
+        pin(EN) {
+            direction: input;
+        }
+        pin(Q) {
+            direction: output;
+        }
+    }
     cell(INV) {
         area: 100;
         pin(A) {
