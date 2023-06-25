@@ -75,6 +75,6 @@ There is a open issue for this:
 - EDIF: add support for different flavors of bit indexing
 - https://github.com/YosysHQ/yosys/issues/568
 
-As a work-around, you can reverse the index in the pin assignments to
-compensate, but it makes reading the fitter equations incredibly
-confusing.
+Update: June 2023 - As of 0.30+21 yosys adds write_edif -lsbidx which
+we now make use of in the run_yosys script. For earlier versions of
+yosys we use some perl to modify the EDIF file to the same effect.

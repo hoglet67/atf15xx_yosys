@@ -4,6 +4,18 @@ export ROOT=$(dirname $0)
 
 NAME=$1; shift
 
+VERSION=`yosys --version | cut -d' ' -f2`
+
+# An option to reverse the order of EDIF busses became available on
+# Jun 20, 2023, and is included Yosys 0.30+21 onwards
+
+if [ "$VERSION" \> "0.30+20" ]
+then
+    LSBIDX="-lsbidx"
+else
+    LSBIDX=""
+fi
+
 yosys <<EOF
 read_liberty -lib ${ROOT}/cells.lib
 read_verilog ${NAME}.v
@@ -32,7 +44,7 @@ splitnets -format _
 rename -wire -suffix _reg t:*DFF*
 rename -wire -suffix _comb
 #write_edif -attrprop ${NAME}.edif
-write_edif ${NAME}.edif
+write_edif ${LSBIDX} ${NAME}.edif
 EOF
 
 # The Atmel tools need the bit order of the array ports reversed, so bit 0 is the LSB.
@@ -43,5 +55,9 @@ EOF
 # to:
 #    (port (array (rename ADDR "ADDR(15:0)") 16) (direction INPUT))
 
-perl -pe 's/\(array\s+(\w+)\s+(\d+)/"(array (rename $1 \"$1(" . ($2 - 1) . ":0)\") $2"/ge;' < ${NAME}.edif > tmp.edif
-mv tmp.edif ${NAME}.edif
+if [ "$LSBIDX" = "" ]
+then
+    echo "Yosys version $VERSION doesn't support write_edif -lsbidx, using perl workaround"
+    perl -pe 's/\(array\s+(\w+)\s+(\d+)/"(array (rename $1 \"$1(" . ($2 - 1) . ":0)\") $2"/ge;' < ${NAME}.edif > tmp.edif
+    mv tmp.edif ${NAME}.edif
+fi
