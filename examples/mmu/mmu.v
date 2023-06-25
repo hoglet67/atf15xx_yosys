@@ -24,6 +24,7 @@ module mmu
    output       nRD,
    output       nWR,
    output       nCSEXT,
+   output       nCSEXTIO,
    output       nCSROM0,
    output       nCSROM1,
    output       nCSRAM,
@@ -49,8 +50,6 @@ module mmu
    // (* keep *) wire io_access_int = {ADDR[15:8], 8'h00} == IO_PAGE && ADDR[5:0] < 8'h30;         // 159 pts (same logic)
    // (* keep *) wire io_access_int = {ADDR[15:6], 6'b000000} == IO_PAGE && (ADDR[5:0] < 8'h30);   // 160 pts
    // (* keep *) wire io_access_int = {ADDR[15:6], 6'b000000} == IO_PAGE && (!ADDR[5] | !ADDR[4]); // 160 pts
-
-   (* keep *) wire io_access_int = io_access & (ADDR[7:0] < 8'h30);
 
    (* keep *) wire mmu_access = {ADDR[15:3], 3'b000} == IO_PAGE + 16'h0020;
 
@@ -158,14 +157,16 @@ module mmu
    assign A11X = ADDR[11] ^ access_vector;
    assign nRD = !(E & RnW);
    assign nWR = !(E & !RnW);
-   assign nCSUART = !(E & {ADDR[15:4], 4'b0000} == IO_PAGE);
+   assign nCSUART  = !(E & {ADDR[15:4], 4'b0000} == IO_PAGE);
 
-   assign nCSROM0 = !(((enmmu & MMU_DATA[7:6] == 2'b00) | (!enmmu &  ADDR[15])) & !io_access);
-   assign nCSROM1 = !(  enmmu & MMU_DATA[7:6] == 2'b01                          & !io_access);
-   assign nCSRAM  = !(((enmmu & MMU_DATA[7:6] == 2'b10) | (!enmmu & !ADDR[15])) & !io_access);
-   assign nCSEXT  = !(BA ^ (enmmu & ((MMU_DATA[7:6] == 2'b11) | io_access) & !io_access_int));
-   assign nBUFEN  = !(BA ^ (enmmu & ((MMU_DATA[7:6] == 2'b11) | io_access) & !io_access_int));
-   assign BUFDIR  =   BA ^ RnW;
+   assign nCSROM0  = !(((enmmu & MMU_DATA[7:6] == 2'b00) | (!enmmu &  ADDR[15])) & !io_access);
+   assign nCSROM1  = !(  enmmu & MMU_DATA[7:6] == 2'b01                          & !io_access);
+   assign nCSRAM   = !(((enmmu & MMU_DATA[7:6] == 2'b10) | (!enmmu & !ADDR[15])) & !io_access);
+   assign nCSEXT   = !(  enmmu & MMU_DATA[7:6] == 2'b11                          & !io_access);
+   assign nCSEXTIO = !(io_access & ADDR[7:4] >= 4'b0011);
+
+   assign nBUFEN   = BA ^ (!nCSEXT | !nCSEXTIO);
+   assign BUFDIR   = BA ^ RnW;
 
 endmodule
 
@@ -232,6 +233,7 @@ endmodule
 //PIN: TMS        : 23
 //PIN: nBUFEN     : 11
 //PIN: nCSEXT     : 4
+//PIN: nCSEXTIO   : 6
 //PIN: nCSRAM     : 80
 //PIN: nCSROM0    : 81
 //PIN: nCSROM1    : 79
