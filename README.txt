@@ -1,7 +1,9 @@
 Experimental Yosys Toolchain for Microchip ATF15xx CPLDs
 --------------------------------------------------------
 
-Quick Start Guide
+--------------------------------------------------------
+Quick Start Guide - Linux
+--------------------------------------------------------
 
 1. Install wine
 
@@ -64,8 +66,58 @@ mmu.fit  - the fitter report
 mmu.vo   - a gate-level verilog for timing simulation
 mmu.jed  - a JEDEC file for programming with Atmisp
 
+
+--------------------------------------------------------
+Quick Start Guide - Windows
+--------------------------------------------------------
+
+1. Download and install the latest nightly of the Yosys Open-Source CAD Suite
+
+https://github.com/YosysHQ/oss-cad-suite-build/releases
+
+Extract it to a location of your choosing
+
+2. Checkout the atf15xx_yosys project
+
+git clone https://github.com/hoglet67/atf15xx_yosys.git
+
+3. Install Microchip ProChip Designer
+
+Download the compressed installer from
+http://ww1.microchip.com/downloads/en/DeviceDoc/ProChip5.0.1.zip
+
+Extract it and run the installation with defaults.
+
+4. Open a command prompt
+
+Either open a new command prompt and set the environment variable OSS_CAD_SUITE_PATH
+to the location you extracted the Yosys Open-Source CAD Suite in step 1, or launch
+start.bat from the location you installed it to.
+
+5. Try one of the examples
+
+cd atf15xx_yosys\examples\mmu
+
+Run Yosys:
+
+..\..\run_yosys.cmd mmu
+
+This should create mmu.edif
+
+Run the Fitter:
+
+..\..\run_fitter.cmd mmu
+
+This creates several files, the most important being:
+
+mmu.fit  - the fitter report
+mmu.vo   - a gate-level verilog for timing simulation
+mmu.jed  - a JEDEC file for programming with Atmisp
+
+
+--------------------------------------------------------
 KNOWN ISSUES
-------------
+--------------------------------------------------------
 
 The Yosys EDIF output deliberately reverses the bit-order of multi-bit
 ports, as this is what is expected by Vivado. Unfortunately it's not
