@@ -57,6 +57,7 @@ echo splitnets -format _
 echo rename -wire -suffix _reg t:*DFF*
 echo rename -wire -suffix _comb
 echo #write_edif -attrprop %VAR_NAME%.edif
+echo delete t:\$scopeinfo
 echo write_edif %VAR_LSBIDX% %VAR_NAME%.edif
 ) >"%VAR_SCRIPTPATH%"
 

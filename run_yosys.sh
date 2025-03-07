@@ -44,6 +44,7 @@ splitnets -format _
 rename -wire -suffix _reg t:*DFF*
 rename -wire -suffix _comb
 #write_edif -attrprop ${NAME}.edif
+delete t:\$scopeinfo
 write_edif ${LSBIDX} ${NAME}.edif
 EOF
 
