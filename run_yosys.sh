@@ -22,7 +22,7 @@ read_verilog ${NAME}.v
 stat
 tribuf
 stat
-synth -flatten -noabc -top ${NAME}
+synth -flatten -noabc -auto-top
 stat
 techmap -map ${ROOT}/techmap.v -D skip_DFFE_XX_
 stat
