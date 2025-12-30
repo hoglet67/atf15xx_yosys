@@ -35,7 +35,7 @@ echo read_verilog %VAR_NAME%.v
 echo stat
 echo tribuf
 echo stat
-echo synth -flatten -noabc -top %VAR_NAME%
+echo synth -flatten -noabc -auto-top
 echo stat
 echo techmap -map %VAR_ROOT%techmap.v -D skip_DFFE_XX_
 echo stat
